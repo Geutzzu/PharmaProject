@@ -18,17 +18,33 @@ import Navbar from './components/Navbar';
 import RecordList from './components/RecordList';
 import Login from './components/Login';
 import Register from './components/Register';
+import ProtectedRoute from './components/ProtectedRoute';
+import Record from './components/Record';
+import './App.css'; 
+
+
+function AppLayout() {
+  return (
+    <div>
+      <Navbar />
+      <Outlet />
+    </div>
+  );
+}
+
+
+
 
 function App() {
   return (
     <div className="w-full p-6">
 
-      <Navbar />
-      <RecordList />
-      
 
-      <Link to="/auth/login" className="inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-150 ease-in-out">Login</Link>
-      <Link to="/auth/register" className="inline-block ml-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-150 ease-in-out">Register</Link>
+      <ProtectedRoute />
+    
+     
+      
+      
 
     </div>
 

@@ -1,4 +1,17 @@
+import mongoose from 'mongoose';
 import { MongoClient, ServerApiVersion } from "mongodb";
+
+const URI = process.env.ATLAS_URI || "";
+
+mongoose.connect(URI, {
+  serverApi: ServerApiVersion.v1,
+}).then(() => console.log('Successfully connected to MongoDB using Mongoose.'))
+  .catch(err => console.error('Connection error', err));
+
+export default mongoose;
+
+/// COD VECHI
+/*import { MongoClient, ServerApiVersion } from "mongodb";
 
 const URI = process.env.ATLAS_URI || "";
 const client = new MongoClient(URI, {
@@ -21,4 +34,5 @@ try {
 
 let db = client.db("employees");
 
-export default db;
+
+export default db;*/

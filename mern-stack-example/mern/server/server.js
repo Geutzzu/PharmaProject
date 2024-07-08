@@ -30,7 +30,7 @@ const PORT = process.env.PORT || 5050;
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:5050', // Change this to your client's origin
+  origin: 'http://localhost:5173', // Change this to your client's origin
   credentials: true,
 }));
 app.use(express.json());

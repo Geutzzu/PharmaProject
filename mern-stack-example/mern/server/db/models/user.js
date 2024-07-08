@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'; /// we use this to interact with the database
 import bcrypt from 'bcrypt'; //// we use this for hashing the password before saving it to the database
-
+import db from '../connection.js'; /// we use this to connect to the database
 
 // User schema (model for the user collection - each user will represent a document in the user collection)
 

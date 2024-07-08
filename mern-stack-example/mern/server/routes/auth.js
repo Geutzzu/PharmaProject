@@ -2,10 +2,13 @@ import express from 'express';
 import { check, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import User from '../db/models/user.js';
+import { protect, checkAuth } from "../middleware/auth.js";
 
 const router = express.Router();
 
 const createToken = (user) => {
+
+
   return jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
@@ -87,5 +90,14 @@ router.post(
     }
   }
 );
+
+
+router.get('/auth/logout', protect, (req, res) => {
+  res.cookie('token', '', { expires: new Date(0) });
+  res.status(200).json({ message: 'Logged out successfully' });
+});
+
+
+router.get('/check', checkAuth);
 
 export default router;

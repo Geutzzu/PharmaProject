@@ -17,7 +17,11 @@ export default function Record() {
       if(!id) return;
       setIsNew(false);
       const response = await fetch(
-        `http://localhost:5050/record/${params.id.toString()}`
+        `http://localhost:5050/record/${params.id.toString()}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -56,6 +60,7 @@ export default function Record() {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify(person),
         });
       } else {
@@ -65,6 +70,7 @@ export default function Record() {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify(person),
         });
       }

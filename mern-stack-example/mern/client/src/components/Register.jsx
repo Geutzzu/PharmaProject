@@ -16,12 +16,12 @@ const Register = () => {
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred');
     }
-  };
+  };  
 
   return (
     <form onSubmit={handleSubmit} className="form">
       <h2>Register</h2>
-      <input
+      <input  
         type="text"
         placeholder="Username"
         value={username}
