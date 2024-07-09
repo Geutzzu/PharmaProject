@@ -1,15 +1,35 @@
-import mongoose from 'mongoose'; /// we use this to interact with the database
-import bcrypt from 'bcrypt'; //// we use this for hashing the password before saving it to the database
-import db from '../connection.js'; /// we use this to connect to the database
+/// users.js
 
-// User schema (model for the user collection - each user will represent a document in the user collection)
+
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import validator from 'validator';
+import { type } from 'os';
 
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
-});
+  username: { 
+    type: String, 
+    required: [true, 'Username is required'], 
+    unique: true, 
+    trim: true, 
+    minlength: [3, 'Username must be at least 3 characters long'] 
+  },
+
+  password: { 
+    type: String, 
+    required: [true, 'Password is required'], 
+    minlength: [8, 'Password must be at least 8 characters long'] 
+  },
+
+  patientId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Patient',
+    required: [true, 'Patient ID is required']
+  },
+
+
+}, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();

@@ -23,28 +23,12 @@ import Record from './components/Record';
 import './App.css'; 
 
 
-function AppLayout() {
-  return (
-    <div>
-      <Navbar />
-      <Outlet />
-    </div>
-  );
-}
-
-
-
 
 function App() {
   return (
     <div className="w-full p-6">
 
-
       <ProtectedRoute />
-    
-     
-      
-      
 
     </div>
 

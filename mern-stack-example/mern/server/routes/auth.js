@@ -1,17 +1,23 @@
 import express from 'express';
 import { check, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import User from '../db/models/user.js';
-import { protect, checkAuth } from "../middleware/auth.js";
+import Doctor from '../db/models/doctor.js';
+import Pharmacy from '../db/models/pharmacy.js';
+import { protect, checkAuth, checkAuthPharmacy, checkAuthDoctor } from "../middleware/auth.js";
 
 const router = express.Router();
 
 const createToken = (user) => {
-
-
-  return jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
+  return jwt.sign(
+    {
+      id: user.id,
+      role: user.role,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    }
+  );
 };
 
 const sendTokenResponse = (user, res) => {
@@ -23,15 +29,18 @@ const sendTokenResponse = (user, res) => {
     sameSite: 'Strict',
   };
 
-  res.cookie('token', token, options).json({ success: true });
+  res.cookie('token', token, options).json({ success: true, token });
 };
 
+// Register Pharmacy
 router.post(
-  '/register',
+  '/register/pharmacy',
   [
-    check('username', 'Username is required').not().isEmpty(),
+    check('pharmacyName', 'Pharmacy name is required').not().isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
-    check('password', 'Password must be 6 or more characters').isLength({ min: 6 }),
+    check('phone', 'Please include a valid phone number').isMobilePhone(),
+    check('password', 'Password must be 8 or more characters').isLength({ min: 8 }),
+    check('address', 'Address is required').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -39,15 +48,15 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { username, email, password } = req.body;
+    const { pharmacyName, email, phone, password, address } = req.body;
 
     try {
-      let user = await User.findOne({ email });
+      let user = await Pharmacy.findOne({ email }) || await Doctor.findOne({ email });
       if (user) {
         return res.status(400).json({ message: 'User already exists' });
       }
 
-      user = new User({ username, email, password });
+      user = new Pharmacy({ pharmacyName, email, phone, password, address, role: 'pharmacy' });
       await user.save();
 
       sendTokenResponse(user, res);
@@ -58,6 +67,47 @@ router.post(
   }
 );
 
+// Register Doctor
+router.post(
+  '/register/doctor',
+  [
+    check('username', 'Username is required').not().isEmpty(),
+    check('email', 'Please include a valid email').isEmail(),
+    check('phone', 'Please include a valid phone number').isMobilePhone(),
+    check('password', 'Password must be 8 or more characters').isLength({ min: 8 }),
+    check('firstname', 'First name is required').not().isEmpty(),
+    check('lastname', 'Last name is required').not().isEmpty(),
+    check('codparafa', 'Cod Parafa is required').not().isEmpty(),
+    check('clinicName', 'Clinic name is required').not().isEmpty(),
+    check('clinicAddress', 'Clinic address is required').not().isEmpty(),
+    check('clinicPhone', 'Please include a valid clinic phone number').isMobilePhone(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { username, email, phone, password, firstname, lastname, codparafa, clinicName, clinicAddress, clinicPhone } = req.body;
+
+    try {
+      let user = await Doctor.findOne({ email }) || await Pharmacy.findOne({ email });
+      if (user) {
+        return res.status(400).json({ message: 'User already exists' });
+      }
+
+      user = new Doctor({ username, email, phone, password, firstname, lastname, codparafa, clinicName, clinicAddress, clinicPhone, role: 'doctor' });
+      await user.save();
+
+      sendTokenResponse(user, res);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
+
+// Login
 router.post(
   '/login',
   [
@@ -73,7 +123,7 @@ router.post(
     const { email, password } = req.body;
 
     try {
-      const user = await User.findOne({ email });
+      let user = await Pharmacy.findOne({ email }) || await Doctor.findOne({ email });
       if (!user) {
         return res.status(400).json({ message: 'Invalid credentials' });
       }
@@ -91,13 +141,14 @@ router.post(
   }
 );
 
-
+// Logout
 router.get('/auth/logout', protect, (req, res) => {
   res.cookie('token', '', { expires: new Date(0) });
   res.status(200).json({ message: 'Logged out successfully' });
 });
 
-
-router.get('/check', checkAuth);
+// Check Auth
+router.get('/check/pharmacy', checkAuthPharmacy);
+router.get('/check/doctor', checkAuthDoctor);
 
 export default router;

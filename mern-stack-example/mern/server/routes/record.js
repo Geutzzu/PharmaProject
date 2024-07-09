@@ -1,7 +1,7 @@
 
 import express from "express";
 import { check, validationResult } from "express-validator";
-import { protect } from "../middleware/auth.js";
+import { protectPharmacy, protectDoctor } from "../middleware/auth.js";
 import Record from "../db/models/record.js";
 
 const router = express.Router();
