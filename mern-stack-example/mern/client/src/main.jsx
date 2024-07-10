@@ -2,11 +2,16 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import Record from "./components/Record";
-import RecordList from "./components/RecordList";
 import "./index.css";
 import Login from "./components/Login";
-import Register from "./components/Register";
+import RegisterDoctor from "./components/RegisterDoctor";
+import RegisterPharmacy from "./components/RegisterPharmacy";
+import GetDoctorPatients from "./components/GetDoctorPatients";
+import CreatePatient from "./components/CreatePatient";
+import CreatePrescription from "./components/CreatePrescription";
+import PatientDetails from "./components/PatientDetails";
+import Logout from "./components/Logout";
+
 
 const router = createBrowserRouter([
   {
@@ -14,27 +19,44 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "record-list",
-        element: <RecordList />,
-      },
-      {
-        path: "create",
-        element: <Record />,
-      },
-      {
-        path: "edit/:id",
-        element: <Record />,
+        path: "get-doctor-patients",
+        element: <GetDoctorPatients />,
+        children: [
+          {
+            path: ":patientId",
+            element: <PatientDetails />,
+          },
+        ],
       },
     ],
+  },
+
+  {
+    path: "create-prescription",
+    element: <CreatePrescription />,
+  },
+  {
+    path: "create-patient",
+    element: <CreatePatient />,
   },
   {
     path: "/auth/login",
     element: <Login />,
   },
   {
-    path: "/auth/register",
-    element: <Register />,
+    path: "/auth/register/doctor",
+    element: <RegisterDoctor />,
   },
+  {
+    path: "auth/register/pharmacy",
+    element: <RegisterPharmacy />,
+  },
+
+  {
+    path: "auth/logout",
+    element: <Logout />,
+  }
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

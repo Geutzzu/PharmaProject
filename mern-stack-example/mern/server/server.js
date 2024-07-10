@@ -20,7 +20,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.js';
-import recordRoutes from './routes/record.js';
+import doctorRoutes from './routes/doctor.js';
+
 
 dotenv.config();
 
@@ -37,7 +38,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/auth', authRoutes);
-app.use('/record', recordRoutes);
+app.use('/api', doctorRoutes);
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -3,7 +3,7 @@ import { check, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import Doctor from '../db/models/doctor.js';
 import Pharmacy from '../db/models/pharmacy.js';
-import { protect, checkAuth, checkAuthPharmacy, checkAuthDoctor } from "../middleware/auth.js";
+import {  checkAuthPharmacy, checkAuthDoctor } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -142,13 +142,28 @@ router.post(
 );
 
 // Logout
-router.get('/auth/logout', protect, (req, res) => {
+router.get('/logout', (req, res) => {
   res.cookie('token', '', { expires: new Date(0) });
   res.status(200).json({ message: 'Logged out successfully' });
+  console.log('Logged out successfully');
 });
 
 // Check Auth
 router.get('/check/pharmacy', checkAuthPharmacy);
 router.get('/check/doctor', checkAuthDoctor);
+
+// Check Cookie - for debugging purposes currently does not work
+router.get('/check-cookie', (req, res) => {
+  console.log('Cookies: ', req.cookies);
+  const token = req.cookies.token; // Assuming the cookie name is 'token'
+  if (token) {
+    res.json({ success: true, message: 'Cookie is present' });
+    console.log('Cookie is present');
+  } else {
+    res.json({ success: false, message: 'Cookie is not present' });
+    console.log('Cookie is not present');
+  }
+});
+
 
 export default router;

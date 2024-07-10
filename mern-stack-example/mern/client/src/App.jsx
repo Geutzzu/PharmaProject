@@ -14,12 +14,10 @@ export default App;*/
 
 import React from 'react';
 import { Routes, Route, Outlet, Link } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import RecordList from './components/RecordList';
 import Login from './components/Login';
-import Register from './components/Register';
+import RegisterDoctor from './components/RegisterDoctor';
+import RegisterPharmacy from './components/RegisterPharmacy';
 import ProtectedRoute from './components/ProtectedRoute';
-import Record from './components/Record';
 import './App.css'; 
 
 

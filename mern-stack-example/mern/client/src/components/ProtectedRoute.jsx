@@ -3,12 +3,37 @@ import { Navigate, Outlet } from 'react-router-dom';
 import axios from 'axios'; // Make sure to install axios if not already done
 import LoginOrRegister from './LoginOrRegister';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './Navbar';
-import RecordList from './RecordList';
-import Record from './Record';
+import CreatePatient from './CreatePatient';
+import CreatePrescription from './CreatePrescription';
+import GetDoctorPrescriptions from './GetDoctorPrescriptions';
+import GetPatientPrescriptions from './GetPatientPrescriptions';
+import GetDoctorPatients from './GetDoctorPatients';
+import { Link } from 'react-router-dom';
+import './ProtectedRoute.css';
+
+
 
 
 const ProtectedRoute = () => {
+
+  /* -- For debugging purposes only --
+  useEffect(() => {
+    const checkCookie = async () => {
+      try {
+        const response = await axios.get('/api/check-cookie'); // Adjust the path as needed
+        if (response.data.success) {
+          console.log('Cookie is valid');
+        } else {
+          console.log('Cookie is invalid');
+        }
+      } catch (error) {
+        console.error('Error checking cookie:', error);
+      }
+    };
+
+    checkCookie();
+  }, []);*/
+
   const [isLoading, setIsLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
 
@@ -16,7 +41,6 @@ const ProtectedRoute = () => {
 function AppLayout() {
     return (
       <div>
-        <Navbar />
         <Outlet />
       </div>
     );
@@ -28,7 +52,7 @@ function AppLayout() {
     const checkAuthStatus = async () => {
       try {
         // Adjust the URL to match your API endpoint for the auth check
-        const response = await axios.get('http://localhost:5050/auth/check', { withCredentials: true });
+        const response = await axios.get('http://localhost:5050/auth/check/doctor', { withCredentials: true });
         if (response.data.loggedIn) {
           setIsAuth(true);
         } else {
@@ -57,15 +81,13 @@ function AppLayout() {
     }
   if(isAuth) {
     return (
-     <Routes>
-        <Route path="/" element={<AppLayout />}> {/* AppLayout should contain <Outlet /> where child components will render */}
-        {/* Define child routes here */}
-        <Route index element={<RecordList />} /> {/* Renders at the path "/" */}
-        <Route path="record-list" element={<RecordList />} /> {/* Renders at the path "/record-list" */}
-        <Route path="create" element={<Record />} /> {/* Renders at the path "/create" */}
-        <Route path="edit/:id" element={<Record />} /> {/* Renders at the path "/edit/:id" */}
-        </Route>
-     </Routes>
+      <div className="w-full p-6">
+          <GetDoctorPatients />
+          <div className="buttons-container">
+              <Link to="/create-patient"><button>Create Patient</button></Link>
+              <Link to="/auth/logout"><button className='logout-button'>Logout</button></Link>
+          </div>
+      </div>
     );
     }
     else {

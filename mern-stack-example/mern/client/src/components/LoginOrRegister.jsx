@@ -11,7 +11,8 @@ const LoginOrRegister = () => {
             <h1 class="text-3xl font-bold text-center">Welcome to Phrarma chestie </h1>
             <div class="container">
                 <Link to="/auth/login" className="inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-150 ease-in-out">Login</Link>
-                <Link to="/auth/register" className="inline-block ml-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-150 ease-in-out">Register</Link>
+                <Link to="/auth/register/doctor" className="inline-block ml-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-150 ease-in-out">Register a doctor</Link>
+                <Link to="/auth/register/pharmacy" className="inline-block ml-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-150 ease-in-out">Register a pharmacy</Link>
             </div>
         </div>
     );

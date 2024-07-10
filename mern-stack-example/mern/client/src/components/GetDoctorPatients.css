@@ -1,0 +1,67 @@
+/* GetDoctorPatients.css */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .form-inline {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .patients-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .patients-table th, .patients-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .patients-table th {
+    background-color: #f2f2f2;
+    color: #333;
+  }
+  
+  .details-link {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .details-link:hover {
+    text-decoration: underline;
+  }
+  
+  p {
+    color: #666;
+  }
+  
