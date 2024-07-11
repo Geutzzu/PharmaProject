@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './GetDoctorPatients.css'; 
 
 const GetDoctorPatients = () => {
+  const [patients, setPatients] = useState([]); // All patients of the logged-in doctor
 
-  const [patients, setPatients] = useState([]); /// all patients of the logged-in doctor
-
-  const onSubmit = async e => {
-    e.preventDefault();
+  const fetchPatients = async () => {
     try {
-      const res = await axios.get('http://localhost:5050/doctor/patients'); // Retrieve all patients of the logged-in doctor
+      const res = await axios.get('http://localhost:5050/api/doctor/patients', { withCredentials: true }); // Retrieve all patients of the logged-in doctor
       setPatients(res.data);
     } catch (err) {
       console.error(err.response.data);
       alert('Error retrieving patients!');
     }
   };
+
+  useEffect(() => {
+    fetchPatients();
+  }, []);
 
   return (
     <div className="container">
@@ -44,7 +46,7 @@ const GetDoctorPatients = () => {
         </table>
       )}
       {patients.length === 0 && (
-        <p>No patients found. Please click "Get Patients" to retrieve the list.</p>
+        <p>No patients found. Please refresh the page to try again.</p>
       )}
     </div>
   );

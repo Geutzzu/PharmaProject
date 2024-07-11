@@ -13,7 +13,6 @@ const router = express.Router();
 router.post(
   '/patients',
   protectDoctor,
-  checkAuthDoctor,
   [
     check('firstName', 'First name is required').not().isEmpty().isLength({ min: 3 }).withMessage('First name must be at least 3 characters long'),
     check('lastName', 'Last name is required').not().isEmpty().isLength({ min: 3 }).withMessage('Last name must be at least 3 characters long'),
@@ -22,8 +21,11 @@ router.post(
     check('email', 'Email is required').not().isEmpty().isEmail().withMessage('Invalid email address')
   ],
   async (req, res) => {
+    console.log('Request Body:', req.body); // Log request body
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error('Validation Errors:', errors.array()); // Log validation errors
       return res.status(400).json({ errors: errors.array() });
     }
 
@@ -46,14 +48,14 @@ router.post(
       });
 
       await patient.save();
+      console.log('Patient Saved:', patient); // Log saved patient
       res.status(201).json({ success: true, data: patient });
     } catch (err) {
-      console.error(err.message);
+      console.error('Error Saving Patient:', err.message); // Log errors
       res.status(500).send('Server error');
     }
   }
 );
-
 
 // Create Prescription
 router.post(
@@ -91,6 +93,8 @@ router.post(
         notes,
       });
 
+
+
       await prescription.save();
       res.status(201).json({ success: true, data: prescription });
     } catch (err) {
@@ -102,7 +106,7 @@ router.post(
 
 
 // Get all prescriptions for a doctor
-router.get('/doctor/:doctorId/prescriptions', protectDoctor, checkAuthDoctor, async (req, res) => {
+router.get('/doctor/:doctorId/prescriptions', protectDoctor, async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.params.doctorId).populate('prescriptions');
     if (!doctor) {
@@ -115,6 +119,8 @@ router.get('/doctor/:doctorId/prescriptions', protectDoctor, checkAuthDoctor, as
   }
 });
 
+
+/*
 // Get a single patient by ID
 router.get('/patients/:patientId', protectDoctor, checkAuthDoctor, async (req, res) => {
   try {
@@ -128,6 +134,7 @@ router.get('/patients/:patientId', protectDoctor, checkAuthDoctor, async (req, r
     res.status(500).send('Server error');
   }
 });
+*/
 
 
 // Get all prescriptions for a patient (by patient ID)
@@ -147,8 +154,10 @@ router.get('/patient/:patientId/prescriptions', protectDoctor, checkAuthDoctor, 
 
 
 // Get all patients for a doctor - we will use the id in the token to get the doctor id - doctor will be the placeholder in the path
-router.get('/doctor/patients', protectDoctor, checkAuthDoctor, async (req, res) => {
+router.get('/doctor/patients', protectDoctor, async (req, res) => {
   try {
+    console.log('Doctor ID:', req.user.id); // Log doctor ID
+
     const doctorId = req.user.id;
 
     // Find all prescriptions issued by the doctor

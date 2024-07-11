@@ -15,6 +15,7 @@ export const protectPharmacy = async (req, res, next) => {
     token = req.cookies.token;
     console.log("Token from cookies: ", token);
   }
+
   // Fallback to Authorization header - basically useless in our case
   else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     token = req.headers.authorization.split(' ')[1];
@@ -40,13 +41,12 @@ export const protectPharmacy = async (req, res, next) => {
 export const protectDoctor = async (req, res, next) => {
   let token;
 
-  ///console.log("Cookies: ", req.cookies);
-  ///console.log("Token: ", req.cookies.token);
+  console.log("Cookies: ", req.cookies);
 
   // Check if token is in cookies
   if (req.cookies && req.cookies.token) {
     token = req.cookies.token;
-    console.log("Token from cookies: ", token);
+    ///console.log("Token from cookies: ", token);
   }
   // Fallback to Authorization header - basically useless in our case
   else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -60,11 +60,11 @@ export const protectDoctor = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded: ", decoded);
+    ///console.log("Decoded: ", decoded);
     req.user = await Doctor.findById(decoded.id).select('-password');
-    console.log("User: ", req.user);
+    ///console.log("User: ", req.user);
     next();
-    console.log("Success");
+    ///console.log("Success");
   } catch (error) {
     console.error(error);
     return res.status(401).json({ message: 'Token is not valid' });
@@ -74,6 +74,7 @@ export const protectDoctor = async (req, res, next) => {
 
 /// for checking if we are logged in as a pharmacy in real time - without lookup in the database
 export const checkAuthPharmacy = (req, res) => {
+  console.log("Token: ", req.cookies.token);
   if (req.cookies.token) {
     try {
       const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
@@ -106,11 +107,14 @@ export const checkAuthDoctor = (req, res) => {
         return res.json({ loggedIn: false });
       }
 
+
       return res.json({ loggedIn: true, user: decoded });
     } catch (error) {
+      console.error(error);
       return res.json({ loggedIn: false });
     }
   } else {
+    console.error("No token");
     return res.json({ loggedIn: false });
   }
 };

@@ -10,10 +10,10 @@ const PatientDetails = () => {
   useEffect(() => {
     const fetchPatientData = async () => {
       try {
-        const patientRes = await axios.get(`http://localhost:5050/patients/${patientId}`);
+        const patientRes = await axios.get(`http://localhost:5050/api/patients/${patientId}`, { withCredentials: true });
         setPatient(patientRes.data);
 
-        const prescriptionsRes = await axios.get(`http://localhost:5050/patient/${patientId}/prescriptions`);
+        const prescriptionsRes = await axios.get(`http://localhost:5050/api/patient/${patientId}/prescriptions`, { withCredentials: true });
         setPrescriptions(prescriptionsRes.data);
       } catch (err) {
         console.error(err);

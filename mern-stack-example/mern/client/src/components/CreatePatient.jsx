@@ -21,7 +21,7 @@ const CreatePatient = () => {
   const onSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5050/api/patients', formData);
+      const res = await axios.post('http://localhost:5050/api/patients', formData, { withCredentials: true });
       console.log(res.data);
       alert('Patient created successfully!');
     } catch (err) {
