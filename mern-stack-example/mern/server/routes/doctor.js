@@ -3,11 +3,9 @@ import { check, validationResult } from 'express-validator';
 import Prescription from '../db/models/prescription.js';
 import Doctor from '../db/models/doctor.js';
 import Patient from '../db/models/patient.js';
-import Pharmacy from '../db/models/pharmacy.js';
-import { protectPharmacy, protectDoctor, checkAuthDoctor } from "../middleware/auth.js";
+import { protectDoctor, checkAuthDoctor } from "../middleware/auth.js";
 
 const router = express.Router();
-
 
 // Create Patient
 router.post(
@@ -30,25 +28,32 @@ router.post(
     }
 
     const { firstName, lastName, CNP, phone, email } = req.body;
+    const doctorId = req.user.id;
 
     try {
       // Check if patient already exists
       let patient = await Patient.findOne({ CNP });
-      if (patient) {
-        return res.status(400).json({ msg: 'Patient already exists' });
+
+      if (!patient) {
+        // Create a new patient
+        patient = new Patient({
+          firstName,
+          lastName,
+          CNP,
+          phone,
+          email
+        });
+        await patient.save();
+        console.log('Patient Saved:', patient); // Log saved patient
       }
 
-      // Create a new patient
-      patient = new Patient({
-        firstName,
-        lastName,
-        CNP,
-        phone,
-        email
-      });
+      // Add patient to doctor's patient list if not already added
+      const doctor = await Doctor.findById(doctorId);
+      if (!doctor.patients.includes(patient._id)) {
+        doctor.patients.push(patient._id);
+        await doctor.save();
+      }
 
-      await patient.save();
-      console.log('Patient Saved:', patient); // Log saved patient
       res.status(201).json({ success: true, data: patient });
     } catch (err) {
       console.error('Error Saving Patient:', err.message); // Log errors
@@ -93,8 +98,6 @@ router.post(
         notes,
       });
 
-
-
       await prescription.save();
       res.status(201).json({ success: true, data: prescription });
     } catch (err) {
@@ -104,83 +107,49 @@ router.post(
   }
 );
 
-
 // Get all prescriptions for a doctor
 router.get('/doctor/:doctorId/prescriptions', protectDoctor, async (req, res) => {
   try {
-    const doctor = await Doctor.findById(req.params.doctorId).populate('prescriptions');
-    if (!doctor) {
-      return res.status(404).json({ message: 'Doctor not found' });
+    const prescriptions = await Prescription.find({ doctorId: req.params.doctorId }).populate('patientId').populate('doctorId');
+    if (!prescriptions.length) {
+      return res.status(404).json({ message: 'No prescriptions found for this doctor' });
     }
-    res.json(doctor.prescriptions);
+    res.json(prescriptions);
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');
   }
 });
-
-
-/*
-// Get a single patient by ID
-router.get('/patients/:patientId', protectDoctor, checkAuthDoctor, async (req, res) => {
-  try {
-    const patient = await Patient.findById(req.params.patientId);
-    if (!patient) {
-      return res.status(404).json({ message: 'Patient not found' });
-    }
-    res.json(patient);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Server error');
-  }
-});
-*/
-
 
 // Get all prescriptions for a patient (by patient ID)
 router.get('/patient/:patientId/prescriptions', protectDoctor, checkAuthDoctor, async (req, res) => {
   try {
-    const patient = await Patient.findById(req.params.patientId).populate('prescriptions');
-    if (!patient) {
-      return res.status(404).json({ message: 'Patient not found' });
+    const prescriptions = await Prescription.find({ patientId: req.params.patientId }).populate('doctorId').populate('patientId');
+    if (!prescriptions.length) {
+      return res.status(404).json({ message: 'No prescriptions found for this patient' });
     }
-    res.json(patient.prescriptions);
+    res.json(prescriptions);
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');
   }
 });
-
-
 
 // Get all patients for a doctor - we will use the id in the token to get the doctor id - doctor will be the placeholder in the path
 router.get('/doctor/patients', protectDoctor, async (req, res) => {
   try {
     console.log('Doctor ID:', req.user.id); // Log doctor ID
 
-    const doctorId = req.user.id;
-
-    // Find all prescriptions issued by the doctor
-    const prescriptions = await Prescription.find({ doctorId }).select('patientId').populate('patientId');
-
-    if (!prescriptions.length) {
+    const doctor = await Doctor.findById(req.user.id).populate('patients');
+    if (!doctor || !doctor.patients.length) {
       return res.status(404).json({ message: 'No patients found for this doctor' });
     }
 
-    // Extract unique patient IDs
-    const patientIds = [...new Set(prescriptions.map(prescription => prescription.patientId._id))];
-
-    // Populate patient details using the extracted IDs
-    const patients = await Patient.find({ _id: { $in: patientIds } });
-
-    res.json(patients);
+    res.json(doctor.patients);
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');
   }
 });
-
-
-
 
 export default router;

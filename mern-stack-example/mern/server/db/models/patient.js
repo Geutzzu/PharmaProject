@@ -49,13 +49,6 @@ const patientRecordSchema = new mongoose.Schema({
      
 }, { timestamps: true });
 
-patientRecordSchema.virtual('prescriptions', {
-    ref: 'Prescription',
-    localField: '_id',
-    foreignField: 'patientId',
-    justOne: false
-  }); /// we use this to create a virtual field that will be used to populate the prescriptions field in the patient object
-
 /// if we require CNP encryption we can use the following code
 /*
 // Encryption function
@@ -78,8 +71,6 @@ patientRecordSchema.methods.decryptCNP = function() {
 };
 */
 
-patientRecordSchema.set('toObject', { virtuals: true });
-patientRecordSchema.set('toJSON', { virtuals: true });
 
 const Patient = mongoose.model('Patient', patientRecordSchema);
 

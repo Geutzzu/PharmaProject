@@ -17,26 +17,21 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: [
-      {
-        path: "get-doctor-patients",
-        element: <GetDoctorPatients />,
-        children: [
-          {
-            path: ":patientId",
-            element: <PatientDetails />,
-          },
-        ],
-      },
-    ],
   },
-
   {
-    path: "create-prescription",
+    path: "/get-doctor-patients",
+        element: <GetDoctorPatients />,
+  },
+  {
+    path: "/patients/:patientId",
+    element: <PatientDetails />,
+  },
+  {
+    path: "/create-prescription",
     element: <CreatePrescription />,
   },
   {
-    path: "create-patient",
+    path: "/create-patient",
     element: <CreatePatient />,
   },
   {
@@ -48,12 +43,12 @@ const router = createBrowserRouter([
     element: <RegisterDoctor />,
   },
   {
-    path: "auth/register/pharmacy",
+    path: "/auth/register/pharmacy",
     element: <RegisterPharmacy />,
   },
 
   {
-    path: "auth/logout",
+    path: "/auth/logout",
     element: <Logout />,
   }
 

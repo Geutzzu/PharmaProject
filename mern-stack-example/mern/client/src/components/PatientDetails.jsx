@@ -24,6 +24,8 @@ const PatientDetails = () => {
     fetchPatientData();
   }, [patientId]);
 
+
+  
   if (!patient) return <div>Loading...</div>;
 
   return (
