@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, Link } from 'react-router-dom';
 import axios from 'axios'; // Make sure to install axios if not already done
 import LoginOrRegister from './LoginOrRegister';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import CreatePatient from './CreatePatient';
-import CreatePrescription from './CreatePrescription';
-import GetDoctorPrescriptions from './GetDoctorPrescriptions';
-import GetPatientPrescriptions from './GetPatientPrescriptions';
 import GetDoctorPatients from './GetDoctorPatients';
-import { Link } from 'react-router-dom';
-import './ProtectedRoute.css';
-
-
-
+import styles from './ProtectedRoute.module.css';
 
 const ProtectedRoute = () => {
 
@@ -37,16 +28,13 @@ const ProtectedRoute = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
 
-    
-function AppLayout() {
+  function AppLayout() {
     return (
       <div>
         <Outlet />
       </div>
     );
   }
-  
-
 
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -72,28 +60,26 @@ function AppLayout() {
   if (isLoading) {
     return <div>Loading...</div>; // Or any other loading indicator
   }
-  if(isAuth) {
+
+  if (isAuth) {
     console.log('Authenticated !!!!!!!!!!!!!!!!!!!!!!!!!');
+  } else {
+    console.log('Not Authenticated !!!!!!!!!!!!!!!!!!!!!!!!!');
   }
-  else 
-    {
-        console.log('Not Authenticated !!!!!!!!!!!!!!!!!!!!!!!!!');
-    }
-  if(isAuth) {
+
+  if (isAuth) {
     return (
-      <div className="w-full p-6">
-          <GetDoctorPatients />
-          <div className="buttons-container">
-              <Link to="/create-patient"><button>Create Patient</button></Link>
-              <Link to="/auth/logout"><button className='logout-button'>Logout</button></Link>
-          </div>
+      <div className={`${styles['w-full']} ${styles['p-6']}`}>
+        <GetDoctorPatients />
+        <div className="flex justify-center mt-20 space-x-4 ">
+          <Link to="/create-patient"><button className={styles['login-button']}>Create Patient</button></Link>
+          <Link to="/auth/logout"><button className={styles['logout-button']}>Logout</button></Link>
+        </div>
       </div>
     );
-    }
-    else {
-        return <LoginOrRegister />;
-    }
-
+  } else {
+    return <LoginOrRegister />;
+  }
 };
 
 export default ProtectedRoute;

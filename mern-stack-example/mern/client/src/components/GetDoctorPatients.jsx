@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './GetDoctorPatients.css'; 
+import styles from './GetDoctorPatients.module.css'; 
 
 const GetDoctorPatients = () => {
   const [patients, setPatients] = useState([]); // All patients of the logged-in doctor
@@ -21,10 +21,10 @@ const GetDoctorPatients = () => {
   }, []);
 
   return (
-    <div className="container">
-      <h2>Your Patients</h2>
+    <div className={styles.container}>
+      <h2 className='text-3xl font-semibold text-gray-800'>Your Patients</h2>
       {patients.length > 0 && (
-        <table className="patients-table">
+        <table className={styles['patients-table']}>
           <thead>
             <tr>
               <th>First Name</th>
@@ -38,7 +38,7 @@ const GetDoctorPatients = () => {
                 <td>{patient.firstName}</td>
                 <td>{patient.lastName}</td>
                 <td>
-                  <Link to={`/patients/${patient._id}`} className="details-link">View Details</Link>
+                  <Link to={`/patients/${patient._id}`} className={styles['details-link']}>View Details</Link>
                 </td>
               </tr>
             ))}

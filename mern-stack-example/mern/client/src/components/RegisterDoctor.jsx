@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import styles from './Forms.module.css';
 
 const DoctorRegistration = () => {
   const [username, setUsername] = useState('');
@@ -36,7 +37,7 @@ const DoctorRegistration = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form">
+    <form onSubmit={handleSubmit} className={styles.form}>
       <h2>Register Doctor</h2>
       <input
         type="text"

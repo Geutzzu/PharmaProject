@@ -24,11 +24,9 @@ import './App.css';
 
 function App() {
   return (
-    <div className="w-full p-6">
 
       <ProtectedRoute />
 
-    </div>
 
     /*
     <div className="w-full p-6">

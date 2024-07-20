@@ -62,6 +62,8 @@ router.post(
   }
 );
 
+
+/*
 // Create Prescription
 router.post(
   '/prescriptions',
@@ -105,6 +107,53 @@ router.post(
       res.status(500).send('Server error');
     }
   }
+);*/
+
+
+// Create Prescription
+// Create Prescription with patientId from URL
+router.post(
+  '/prescriptions/:patientId',
+  protectDoctor,
+  [
+    check('medications', 'Medications are required').isArray({ min: 1 }),
+    check('medications.*.name', 'Medication name is required').not().isEmpty(),
+    check('medications.*.dosage', 'Dosage is required').not().isEmpty(),
+    check('medications.*.quantity', 'Quantity must be at least 1').isInt({ min: 1 }),
+    /// check('patientId', 'Patient ID is required').not().isEmpty(), we do not check this anymore
+    check('notes', 'Notes are required').optional().isString(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req); 
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { medications, notes } = req.body;
+    const { patientId } = req.params; 
+
+    try {
+      // Verify patient exists
+      const patient = await Patient.findById(patientId);
+      if (!patient) {
+        return res.status(404).json({ message: 'Patient not found' });
+      }
+
+      // Create the prescription
+      const prescription = new Prescription({
+        medications,
+        patientId,
+        doctorId: req.user.id,
+        notes,
+      });
+
+      await prescription.save();
+      res.status(201).json({ success: true, data: prescription });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  }
 );
 
 // Get all prescriptions for a doctor
@@ -122,7 +171,7 @@ router.get('/doctor/:doctorId/prescriptions', protectDoctor, async (req, res) =>
 });
 
 // Get all prescriptions for a patient (by patient ID)
-router.get('/patient/:patientId/prescriptions', protectDoctor, checkAuthDoctor, async (req, res) => {
+router.get('/patients/:patientId/prescriptions', protectDoctor, async (req, res) => {
   try {
     const prescriptions = await Prescription.find({ patientId: req.params.patientId }).populate('doctorId').populate('patientId');
     if (!prescriptions.length) {
@@ -135,10 +184,26 @@ router.get('/patient/:patientId/prescriptions', protectDoctor, checkAuthDoctor, 
   }
 });
 
+
+// Gel all the information about a patient (aside from prescriptions)
+router.get('/patients/:patientId', protectDoctor, async (req, res) => {
+  try {
+    const patient = await Patient.findById(req.params.patientId);
+    if (!patient) {
+      return res.status(404).json({ message: 'Patient not found' });
+    }
+    res.json(patient);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  } 
+});
+
+
 // Get all patients for a doctor - we will use the id in the token to get the doctor id - doctor will be the placeholder in the path
 router.get('/doctor/patients', protectDoctor, async (req, res) => {
   try {
-    console.log('Doctor ID:', req.user.id); // Log doctor ID
+    console.log('Doctor ID:', req.user.id); 
 
     const doctor = await Doctor.findById(req.user.id).populate('patients');
     if (!doctor || !doctor.patients.length) {

@@ -24,11 +24,11 @@ const sendTokenResponse = (user, res) => {
   const token = createToken(user);
   const options = {
     httpOnly: true,
-    expires: new Date(Date.now() + process.env.JWT_EXPIRES_IN * 1000),
+    expires: new Date(Date.now() + process.env.JWT_EXPIRES_IN * 24),
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'Strict',
   };
-
+  console.log('Expires in: ', options.expires);
   res.cookie('token', token, options).json({ success: true, token });
 };
 

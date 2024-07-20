@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import styles from './Forms.module.css';
 
 
 
@@ -40,7 +41,7 @@ const Login = () => {
   */
 
   return (
-    <form onSubmit={handleSubmit} className="form">
+    <form onSubmit={handleSubmit} className={styles.form}>
       <h2>Login</h2>
       <input
         type="email"

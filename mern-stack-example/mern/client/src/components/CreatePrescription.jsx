@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import styles from './CreatePrescription.module.css'; // Import the CSS Module
 
 const CreatePrescription = () => {
   const [formData, setFormData] = useState({
@@ -8,7 +10,8 @@ const CreatePrescription = () => {
     notes: ''
   });
 
-  const { medications, patientId, notes } = formData;
+  const { medications, notes } = formData;
+  const { patientId } = useParams(); // We get this from the path
 
   const onChange = (e, index) => {
     const updatedMedications = medications.map((medication, i) => 
@@ -29,7 +32,7 @@ const CreatePrescription = () => {
   const onSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5050/prescriptions', formData); // Adjust the URL based on your backend setup
+      const res = await axios.post(`http://localhost:5050/api/prescriptions/${patientId}`, formData, { withCredentials: true }); 
       console.log(res.data);
       alert('Prescription created successfully!');
     } catch (err) {
@@ -39,19 +42,45 @@ const CreatePrescription = () => {
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className={styles.form}>
       {medications.map((medication, index) => (
-        <div key={index}>
-          <input type="text" name="name" value={medication.name} onChange={(e) => onChange(e, index)} placeholder="Medication Name" required />
-          <input type="text" name="dosage" value={medication.dosage} onChange={(e) => onChange(e, index)} placeholder="Dosage" required />
-          <input type="number" name="quantity" value={medication.quantity} onChange={(e) => onChange(e, index)} placeholder="Quantity" required min="1" />
+        <div key={index} className={styles.medication}>
+          <input 
+            type="text" 
+            name="name" 
+            value={medication.name} 
+            onChange={(e) => onChange(e, index)} 
+            placeholder="Medication Name" 
+            required 
+          />
+          <input 
+            type="text" 
+            name="dosage" 
+            value={medication.dosage} 
+            onChange={(e) => onChange(e, index)} 
+            placeholder="Dosage" 
+            required 
+          />
+          <input 
+            type="number" 
+            name="quantity" 
+            value={medication.quantity} 
+            onChange={(e) => onChange(e, index)} 
+            placeholder="Quantity" 
+            required 
+            min="1" 
+          />
           <button type="button" onClick={() => removeMedication(index)}>Remove</button>
         </div>
       ))}
-      <button type="button" onClick={addMedication}>Add Medication</button>
-      <input type="text" name="patientId" value={patientId} onChange={(e) => setFormData({ ...formData, patientId: e.target.value })} placeholder="Patient ID" required />
-      <textarea name="notes" value={notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} placeholder="Notes" />
-      <button type="submit">Create Prescription</button>
+      <button type="button" onClick={addMedication} className={styles.addMedicationButton}>Add Medication</button>
+      <textarea 
+        name="notes" 
+        value={notes} 
+        onChange={(e) => setFormData({ ...formData, notes: e.target.value })} 
+        placeholder="Notes" 
+      />
+      <button type="submit" className={styles.submitButton}>Create Prescription</button>
     </form>
   );
 }

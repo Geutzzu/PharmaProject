@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     element: <PatientDetails />,
   },
   {
-    path: "/create-prescription",
+    path: "/create-prescription/:patientId",
     element: <CreatePrescription />,
   },
   {

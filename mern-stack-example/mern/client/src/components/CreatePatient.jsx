@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './CreatePatient.css'; // Import the CSS file
+import styles from './CreatePatient.module.css'; // Import the CSS module
 
 const CreatePatient = () => {
-
-
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -31,13 +29,13 @@ const CreatePatient = () => {
   }
 
   return (
-    <form onSubmit={onSubmit} className="form-container">
-      <input type="text" name="firstName" value={firstName} onChange={onChange} placeholder="First Name" required className="input-field" />
-      <input type="text" name="lastName" value={lastName} onChange={onChange} placeholder="Last Name" required className="input-field" />
-      <input type="text" name="CNP" value={CNP} onChange={onChange} placeholder="CNP" required className="input-field" />
-      <input type="text" name="phone" value={phone} onChange={onChange} placeholder="Phone" required className="input-field" />
-      <input type="email" name="email" value={email} onChange={onChange} placeholder="Email" required className="input-field" />
-      <button type="submit" className="submit-button">Create Patient</button>
+    <form onSubmit={onSubmit} className={styles.formContainer}>
+      <input type="text" name="firstName" value={firstName} onChange={onChange} placeholder="First Name" required className={styles.inputField} />
+      <input type="text" name="lastName" value={lastName} onChange={onChange} placeholder="Last Name" required className={styles.inputField} />
+      <input type="text" name="CNP" value={CNP} onChange={onChange} placeholder="CNP" required className={styles.inputField} />
+      <input type="text" name="phone" value={phone} onChange={onChange} placeholder="Phone" required className={styles.inputField} />
+      <input type="email" name="email" value={email} onChange={onChange} placeholder="Email" required className={styles.inputField} />
+      <button type="submit" className={styles.submitButton}>Create Patient</button>
     </form>
   );
 }
