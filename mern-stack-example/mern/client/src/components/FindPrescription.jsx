@@ -16,6 +16,9 @@ const PrescriptionSearch = () => {
       if(response.data.length > 0) {
         setPrescription(response.data[0]);
         console.log(response.data[0]._id);
+        if(response.data[0].pharmacyId) {
+          setClaim(true);
+        }
         setError('');
       } else {
         setPrescription(null);
@@ -29,7 +32,7 @@ const PrescriptionSearch = () => {
 
   const handleClaim = async () => {
     try {
-        const response = await axios.patch(`http://localhost:5050/api/pharmacy/prescription/${prescription._id}`, { withCredentials: true });
+        const response = await axios.patch(`http://localhost:5050/api/pharmacy/prescription/${prescription._id}`, [] , { withCredentials: true });
         console.log(response.data);
         if(response) {
             setClaim(true);

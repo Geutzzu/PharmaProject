@@ -7,8 +7,8 @@ import Pharmacy from '../db/models/pharmacy.js';
 export const protectPharmacy = async (req, res, next) => {
   let token;
 
-  ///console.log("Cookies: ", req.cookies);
-  ///console.log("Token: ", req.cookies.token);
+  console.log("Cookies: ", req.cookies);
+  console.log("Token: ", req.cookies.token);
 
   // Check if token is in cookies
   if (req.cookies && req.cookies.token) {
