@@ -3,3 +3,140 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+
+:root {
+  /* Font sizes */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px; /* Base font size */
+  --font-size-lg: 20px;
+  --font-size-xl: 24px;
+  --font-size-xxl: 32px;
+
+  /* Line heights */
+  --line-height-xs: 1.5;
+  --line-height-sm: 1.6;
+  --line-height-md: 1.75;
+  --line-height-lg: 1.8;
+  --line-height-xl: 2.0;
+
+  /* Font families */
+  --font-family-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-family-serif: 'Georgia', Times, 'Times New Roman', serif;
+  --font-family-mono: 'Courier New', Courier, monospace;
+
+  /* Font weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+
+  /* Colors */
+  --color-text-primary: #333;
+  --color-text-secondary: #666;
+  --color-text-accent: #007BFF;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+  color: var(--color-text-primary);
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 1em 0;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+h1 {
+  font-size: var(--font-size-xxl);
+  line-height: var(--line-height-xl);
+}
+
+h2 {
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-lg);
+}
+
+h3 {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-md);
+}
+
+h4 {
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+}
+
+h5 {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+}
+
+h6 {
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-xs);
+}
+
+p {
+  margin: 0 0 1em 0;
+  line-height: var(--line-height-md);
+  color: var(--color-text-secondary);
+}
+
+a {
+  color: var(--color-text-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+small {
+  font-size: var(--font-size-xs);
+}
+
+/* Utility classes */
+/*
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-bold {
+  font-weight: var(--font-weight-bold);
+}
+
+.text-light {
+  font-weight: var(--font-weight-light);
+}
+
+.text-normal {
+  font-weight: var(--font-weight-normal);
+}
+
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-accent {
+  color: var(--color-text-accent);
+}
+*/
