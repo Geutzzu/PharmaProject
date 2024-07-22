@@ -120,17 +120,18 @@ router.post(
     check('medications.*.name', 'Medication name is required').not().isEmpty(),
     check('medications.*.dosage', 'Dosage is required').not().isEmpty(),
     check('medications.*.quantity', 'Quantity must be at least 1').isInt({ min: 1 }),
-    /// check('patientId', 'Patient ID is required').not().isEmpty(), we do not check this anymore
+    check('medications.*.administration', 'Administration is required').optional().isString(),
+    check('medications.*.concentration', 'Concentration is required').optional().isString(),
     check('notes', 'Notes are required').optional().isString(),
   ],
   async (req, res) => {
-    const errors = validationResult(req); 
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
     const { medications, notes } = req.body;
-    const { patientId } = req.params; 
+    const { patientId } = req.params;
 
     try {
       // Verify patient exists
@@ -216,5 +217,7 @@ router.get('/doctor/patients', protectDoctor, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+
 
 export default router;

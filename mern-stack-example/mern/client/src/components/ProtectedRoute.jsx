@@ -4,6 +4,7 @@ import axios from 'axios'; // Make sure to install axios if not already done
 import LoginOrRegister from './LoginOrRegister';
 import GetDoctorPatients from './GetDoctorPatients';
 import styles from './ProtectedRoute.module.css';
+import FindPrescription from './FindPrescription';
 
 const ProtectedRoute = () => {
 
@@ -26,7 +27,8 @@ const ProtectedRoute = () => {
   }, []);*/
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuthDoctor, setIsAuthDoctor] = useState(false);
+  const [isAuthPharmacy, setIsAuthPharmacy] = useState(false);
 
   function AppLayout() {
     return (
@@ -37,37 +39,48 @@ const ProtectedRoute = () => {
   }
 
   useEffect(() => {
-    const checkAuthStatus = async () => {
+    const checkAuthStatusDoctor = async () => {
       try {
         // Adjust the URL to match your API endpoint for the auth check
         const response = await axios.get('http://localhost:5050/auth/check/doctor', { withCredentials: true });
         if (response.data.loggedIn) {
-          setIsAuth(true);
+          setIsAuthDoctor(true);
         } else {
-          setIsAuth(false);
+          setIsAuthDoctor(false);
         }
       } catch (error) {
         console.error('Error checking auth status', error);
-        setIsAuth(false);
+        setIsAuthDoctor(false);
       } finally {
         setIsLoading(false);
       }
     };
-
-    checkAuthStatus();
+    const checkAuthStatusPharmacy = async () => {
+      try {
+        // Adjust the URL to match your API endpoint for the auth check
+        const response = await axios.get('http://localhost:5050/auth/check/pharmacy', { withCredentials: true });
+        if (response.data.loggedIn) {
+          setIsAuthPharmacy(true);
+        } else {
+          setIsAuthPharmacy(false);
+        }
+      } catch (error) {
+        console.error('Error checking auth status', error);
+        setIsAuthPharmacy(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    checkAuthStatusDoctor();
+    checkAuthStatusPharmacy();
   }, []);
 
   if (isLoading) {
     return <div>Loading...</div>; // Or any other loading indicator
   }
 
-  if (isAuth) {
-    console.log('Authenticated !!!!!!!!!!!!!!!!!!!!!!!!!');
-  } else {
-    console.log('Not Authenticated !!!!!!!!!!!!!!!!!!!!!!!!!');
-  }
-
-  if (isAuth) {
+  if (isAuthDoctor) {
     return (
       <div className={`${styles['w-full']} ${styles['p-6']}`}>
         <GetDoctorPatients />
@@ -77,6 +90,18 @@ const ProtectedRoute = () => {
         </div>
       </div>
     );
+    
+  } else if (isAuthPharmacy) {
+    return (
+      <div className={`${styles['w-full']} ${styles['p-6']}`}>
+        <FindPrescription />
+        <div className="flex justify-center mt-20 space-x-4 ">
+          <Link to="/auth/logout"><button className={styles['logout-button']}>Logout</button></Link>
+        </div>
+      </div>
+    );
+
+    
   } else {
     return <LoginOrRegister />;
   }

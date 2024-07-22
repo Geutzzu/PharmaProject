@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import styles from './Forms.module.css'; // Import the CSS module
 
 const PharmacyRegistration = () => {
   const [pharmacyName, setPharmacyName] = useState('');
@@ -26,7 +27,7 @@ const PharmacyRegistration = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form">
+    <form onSubmit={handleSubmit} className={styles.form}>
       <h2>Register Pharmacy</h2>
       <input
         type="text"

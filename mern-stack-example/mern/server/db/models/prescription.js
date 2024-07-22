@@ -1,11 +1,8 @@
-/// prescription.js
-
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
-import validator from 'validator';
-import { type } from 'os';
+import { customAlphabet } from 'nanoid';
 
-
+// Generate a nanoid instance
+const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
 const medicationSchema = new mongoose.Schema({
     name: {
@@ -23,10 +20,27 @@ const medicationSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'Quantity is required'],
         min: [1, 'Quantity must be at least 1']
+    },
+    administration: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    concentration: {
+        type: String,
+        required: false,
+        trim: true
     }
 });
 
 const prescriptionSchema = new mongoose.Schema({
+
+    prescriptionID: {
+        type: String,
+        default: () => nanoid(),
+        unique: true,
+        required: [true, 'Prescription ID is required']
+    },
 
     medications: {
         type: [medicationSchema],
@@ -48,7 +62,7 @@ const prescriptionSchema = new mongoose.Schema({
     pharmacyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Pharmacy',
-        required: false,
+        required: false
     },
 
     notes: {

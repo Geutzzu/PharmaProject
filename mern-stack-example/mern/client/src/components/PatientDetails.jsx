@@ -69,6 +69,8 @@ const PatientDetails = () => {
                         <p><strong>Name:</strong> {medication.name}</p>
                         <p><strong>Dosage:</strong> {medication.dosage}</p>
                         <p><strong>Quantity:</strong> {medication.quantity}</p>
+                        <p><strong>Administration:</strong> {medication.administration}</p>
+                        <p><strong>Concentration:</strong> {medication.concentration}</p>
                       </li>
                     ))}
                   </ul>

@@ -5,7 +5,7 @@ import styles from './CreatePrescription.module.css'; // Import the CSS Module
 
 const CreatePrescription = () => {
   const [formData, setFormData] = useState({
-    medications: [{ name: '', dosage: '', quantity: 1 }],
+    medications: [{ name: '', dosage: '', quantity: 1, administration: '', concentration: ''}],
     patientId: '',
     notes: ''
   });
@@ -21,7 +21,7 @@ const CreatePrescription = () => {
   };
 
   const addMedication = () => {
-    setFormData({ ...formData, medications: [...medications, { name: '', dosage: '', quantity: 1 }] });
+    setFormData({ ...formData, medications: [...medications, { name: '', dosage: '', quantity: 1, administration: '', concentration: '' }] });
   };
 
   const removeMedication = (index) => {
@@ -69,6 +69,20 @@ const CreatePrescription = () => {
             placeholder="Quantity" 
             required 
             min="1" 
+          />
+          <input
+            type="text"
+            name="administration"
+            value={medication.administration}
+            onChange={(e) => onChange(e, index)}
+            placeholder="Administration"
+          />
+          <input
+            type="text"
+            name="concentration"
+            value={medication.concentration}
+            onChange={(e) => onChange(e, index)}
+            placeholder="Concentration"
           />
           <button type="button" onClick={() => removeMedication(index)}>Remove</button>
         </div>

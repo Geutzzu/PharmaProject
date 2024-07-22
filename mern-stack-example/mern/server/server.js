@@ -21,6 +21,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.js';
 import doctorRoutes from './routes/doctor.js';
+import pharmacyRoutes from './routes/pharmacy.js';
 
 
 dotenv.config();
@@ -39,6 +40,7 @@ app.use(cookieParser());
 
 app.use('/auth', authRoutes);
 app.use('/api', doctorRoutes);
+app.use('/api', pharmacyRoutes);
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
