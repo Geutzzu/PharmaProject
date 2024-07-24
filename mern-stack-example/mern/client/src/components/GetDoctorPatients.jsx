@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './GetDoctorPatients.module.css'; 
+import genericStyles from '../Tests/Components.module.css';
 
 const GetDoctorPatients = () => {
   const [patients, setPatients] = useState([]); // All patients of the logged-in doctor
@@ -21,33 +22,39 @@ const GetDoctorPatients = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <h2 className='text-3xl font-semibold text-gray-800'>Your Patients</h2>
+    <div className={genericStyles.container}>
+      <h2 className={genericStyles.header}>Your Patients</h2>
       {patients.length > 0 && (
-        <table className={styles['patients-table']}>
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {patients.map(patient => (
-              <tr key={patient._id}>
-                <td>{patient.firstName}</td>
-                <td>{patient.lastName}</td>
-                <td>
-                  <Link to={`/patients/${patient._id}`} className={styles['details-link']}>View Details</Link>
-                </td>
+        <div className={genericStyles.card}>
+          <table className={genericStyles.table}>
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Details</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {patients.map(patient => (
+                <tr key={patient._id}>
+                  <td>{patient.firstName}</td>
+                  <td>{patient.lastName}</td>
+                  <td>
+                    <Link to={`/patients/${patient._id}`} className={styles['details-link']}>View Details</Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
       {patients.length === 0 && (
         <p>No patients found. Please refresh the page to try again.</p>
       )}
+
+      <div className={genericStyles.marginBottom}>
+        <Link to="/create-patient"><button className={genericStyles.button}>Create Patient</button></Link>
+      </div>
     </div>
   );
 };

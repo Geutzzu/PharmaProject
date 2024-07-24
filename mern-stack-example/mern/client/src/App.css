@@ -47,6 +47,7 @@ body {
   padding: 0;
 }
 
+
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 1em 0;
   font-weight: var(--font-weight-bold);
@@ -94,13 +95,17 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 small {
   font-size: var(--font-size-xs);
 }
+
+/* Layout classes */
+
+
+
+
+
+
 
 /* Utility classes */
 /*

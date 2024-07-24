@@ -1,23 +1,122 @@
+
+
+.loginBackground {
+  background: 
+    linear-gradient(to left, rgba(0, 0, 255, 0.5), rgba(0, 255, 255, 0.5)), 
+    url('../assets/image.jpg');
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center; 
+  background-blend-mode: overlay; 
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0%;
+  border: none;
+}
+
+
+
+.container1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* Use full viewport height */
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: flex-start; /* Align items at the top */
+  width: 80vh; /* Increase the width of the container */
+  max-width: 600px; /* Ensure it doesn't get too wide on large screens */
+  height: auto; /* Adjust height automatically */
+  text-align: center;
+  gap: 20px;
+  border: 0px solid #333;
+  border-radius: 15px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: white; /* Set the background color to plain white */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a slight shadow */
+}
+
+/* Form Styles */
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%; /* Make the form take up the full width of the container */
+  gap: 20px;
+}
+
+.form h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.form input {
+  width: 100%; /* Make input fields take up the full width of the form */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form button {
+  width: 100%; /* Make the button take up the full width of the form */
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form button:hover {
+  background-color: #0056b3;
+}
+
+.form p {
+  color: #ff0000;
+}
+
+/* Button Container Styles */
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px; /* Adjust the gap between buttons */
+  margin-top: 5vh; /* Use viewport height for top margin */
+  width: 80%; /* Make the button container responsive */
+}
+
+/* Title Styles */
+.title {
+  margin-top: 5vh; /* Lower the h1 text by 5vh */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .container {
+    width: 80vw; /* Adjust width for smaller screens */
+    height: auto; /* Allow height to adjust automatically */
+    padding: 10px; /* Adjust padding for smaller screens */
   }
 
-  .container1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-top: 100px;
+  .buttonContainer {
+    width: 100%; /* Make the button container full width */
+    gap: 10px; /* Reduce gap between buttons */
+    margin-top: 2vh; /* Adjust top margin for smaller screens */
   }
-  
+
   .title {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+    margin-top: 2vh; /* Adjust top margin for smaller screens */
   }
+}

@@ -11,28 +11,12 @@ import CreatePatient from "./components/CreatePatient";
 import CreatePrescription from "./components/CreatePrescription";
 import PatientDetails from "./components/PatientDetails";
 import Logout from "./components/Logout";
-
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/*",
     element: <App />,
-  },
-  {
-    path: "/get-doctor-patients",
-        element: <GetDoctorPatients />,
-  },
-  {
-    path: "/patients/:patientId",
-    element: <PatientDetails />,
-  },
-  {
-    path: "/create-prescription/:patientId",
-    element: <CreatePrescription />,
-  },
-  {
-    path: "/create-patient",
-    element: <CreatePatient />,
   },
   {
     path: "/auth/login",
@@ -46,12 +30,10 @@ const router = createBrowserRouter([
     path: "/auth/register/pharmacy",
     element: <RegisterPharmacy />,
   },
-
   {
     path: "/auth/logout",
     element: <Logout />,
   }
-
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

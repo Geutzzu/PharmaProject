@@ -1,17 +1,85 @@
-import { NavLink } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from './AuthContext';
+import styles from './Navbar.module.css';
+import logo from '../assets/logo.png';
 
-export default function Navbar() {
-  return (
-    <div>
-      <nav className="flex justify-between items-center mb-6">
-        <NavLink to="/">
-          <img alt="MongoDB logo" className="h-10 inline" src="https://raw.githubusercontent.com/mongodb-developer/mern-stack-example/603144e25ba5549159d1962601337652a7bfa253/mern/client/src/assets/mongodb.svg"></img>
-        </NavLink>
+const Navbar = () => {
+  const [isDoctorDropdownOpen, setIsDoctorDropdownOpen] = useState(false);
+  const [isPharmacyDropdownOpen, setIsPharmacyDropdownOpen] = useState(false);
 
-        <NavLink className="inline-flex items-center justify-center whitespace-nowrap text-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-slate-100 h-9 rounded-md px-3" to="/create">
-          Create Employee
-        </NavLink>
-      </nav>
-    </div>
+  const handleDoctorDropdownToggle = () => {
+    setIsDoctorDropdownOpen(!isDoctorDropdownOpen);
+  };
+
+  const handlePharmacyDropdownToggle = () => {
+    setIsPharmacyDropdownOpen(!isPharmacyDropdownOpen);
+  };
+
+  const renderDoctorLinks = () => (
+    <>
+      <div className={styles.navbarItem}>
+        <Link to="/get-doctor-patients" className={styles.navbarLink}>
+          Patients
+        </Link>
+      </div>
+      <div className={styles.navbarItem} onClick={handleDoctorDropdownToggle}>
+        <span className={styles.navbarLink}>Profile</span>
+        {isDoctorDropdownOpen && (
+          <div className={styles.dropdown}>
+            <Link to="/profile/details" className={styles.dropdownItem}>
+              Details
+            </Link>
+            <Link to="/auth/logout" className={styles.dropdownItem}>
+              Logout
+            </Link>
+          </div>
+        )}
+      </div>
+    </>
   );
-}
+
+  const renderPharmacyLinks = () => (
+    <>
+      <div className={styles.navbarItem}>
+        <Link to="/orders" className={styles.navbarLink}>
+          Orders
+        </Link>
+      </div>
+      <div className={styles.navbarItem} onClick={handlePharmacyDropdownToggle}>
+        <span className={styles.navbarLink}>Profile</span>
+        {isPharmacyDropdownOpen && (
+          <div className={styles.dropdown}>
+            <Link to="/profile/details" className={styles.dropdownItem}>
+              Details
+            </Link>
+            <Link to="/auth/logout" className={styles.dropdownItem}>
+              Logout
+            </Link>
+          </div>
+        )}
+      </div>
+    </>
+  );
+
+  const { isAuthDoctor, isAuthPharmacy } = useAuth();
+
+  if (!isAuthDoctor && !isAuthPharmacy) {
+    return null;
+  }
+
+  return (
+    <nav className={styles.navbar}>
+      <div className={styles.navbarLogo}>
+        <img src={logo} alt="Logo" />
+        <h2>Welcome to Pharma!</h2>
+      </div>
+      <div className={styles.navbarMenu}>
+        {isAuthDoctor && renderDoctorLinks()}
+        {isAuthPharmacy && renderPharmacyLinks()}
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

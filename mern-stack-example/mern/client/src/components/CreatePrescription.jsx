@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import styles from './CreatePrescription.module.css'; // Import the CSS Module
+import styles from './CreatePrescription.module.css'; // Import the specific CSS module for component-specific styles
+import genericStyles from '../Tests/Components.module.css'; // Import the generic styles
 
 const CreatePrescription = () => {
   const [formData, setFormData] = useState({
     medications: [{ name: '', dosage: '', quantity: 1, administration: '', concentration: ''}],
-    patientId: '',
     notes: ''
   });
 
@@ -42,9 +42,10 @@ const CreatePrescription = () => {
   }
 
   return (
-    <form onSubmit={onSubmit} className={styles.form}>
+    <div className={genericStyles.container}>
+    <form onSubmit={onSubmit} className={genericStyles.form}>
       {medications.map((medication, index) => (
-        <div key={index} className={styles.medication}>
+        <div key={index} className={`${genericStyles.card} ${genericStyles.formGroup}`}>
           <input 
             type="text" 
             name="name" 
@@ -52,6 +53,7 @@ const CreatePrescription = () => {
             onChange={(e) => onChange(e, index)} 
             placeholder="Medication Name" 
             required 
+            className={genericStyles.input}
           />
           <input 
             type="text" 
@@ -60,6 +62,7 @@ const CreatePrescription = () => {
             onChange={(e) => onChange(e, index)} 
             placeholder="Dosage" 
             required 
+            className={genericStyles.input}
           />
           <input 
             type="number" 
@@ -69,6 +72,7 @@ const CreatePrescription = () => {
             placeholder="Quantity" 
             required 
             min="1" 
+            className={genericStyles.input}
           />
           <input
             type="text"
@@ -76,6 +80,7 @@ const CreatePrescription = () => {
             value={medication.administration}
             onChange={(e) => onChange(e, index)}
             placeholder="Administration"
+            className={genericStyles.input}
           />
           <input
             type="text"
@@ -83,19 +88,24 @@ const CreatePrescription = () => {
             value={medication.concentration}
             onChange={(e) => onChange(e, index)}
             placeholder="Concentration"
+            className={genericStyles.input}
           />
-          <button type="button" onClick={() => removeMedication(index)}>Remove</button>
+          <button  onClick={() => removeMedication(index)} className={genericStyles.button}>
+            Remove
+          </button>
         </div>
       ))}
-      <button type="button" onClick={addMedication} className={styles.addMedicationButton}>Add Medication</button>
+      <button onClick={addMedication} className={`${genericStyles.button} ${styles.addMedicationButton}`}>Add Medication</button>
       <textarea 
         name="notes" 
         value={notes} 
         onChange={(e) => setFormData({ ...formData, notes: e.target.value })} 
         placeholder="Notes" 
+        className={genericStyles.textarea}
       />
-      <button type="submit" className={styles.submitButton}>Create Prescription</button>
+      <button className={genericStyles.button}>Create Prescription</button>
     </form>
+    </div>
   );
 }
 

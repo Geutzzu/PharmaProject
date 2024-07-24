@@ -1,45 +1,28 @@
-/*import { Outlet } from "react-router-dom";
-import Navbar from "./components/Navbar";
-
-const App = () => {
-  return (
-    <div className="w-full p-6">
-      <Navbar />
-      <Outlet />
-    </div>
-  );
-};
-export default App;*/
-
-
 import React from 'react';
-import { Routes, Route, Outlet, Link } from 'react-router-dom';
-import Login from './components/Login';
-import RegisterDoctor from './components/RegisterDoctor';
-import RegisterPharmacy from './components/RegisterPharmacy';
+import { Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './components/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
-import './App.css'; 
-
-
+import CreatePatient from './components/CreatePatient';
+import GetDoctorPatients from './components/GetDoctorPatients';
+import CreatePrescription from './components/CreatePrescription';
+import PatientDetails from './components/PatientDetails';
+import Navbar from './components/Navbar';
+import './App.css';
+import Footer from './components/Footer';
 
 function App() {
   return (
-
-      <ProtectedRoute />
-
-
-    /*
-    <div className="w-full p-6">
-      <Navbar />
-
-
-      
-      <Routes>
-        <Route path="/auth/login" element={<Login />} />
-        <Route path="/auth/register" element={<Register />} />
-        <Route path="/" element={<RecordList />} />
-      </Routes>
-    </div>*/
+    <AuthProvider>
+        <Navbar />
+        <Routes>
+          <Route exact path="/" element={<ProtectedRoute  />} /> {/* Or your default component */}
+          <Route exact path="/get-doctor-patients" element={<GetDoctorPatients />} />
+          <Route exact path="/patients/:patientId" element={<PatientDetails />} />
+          <Route exact path="/create-prescription/:patientId" element={<CreatePrescription />} />
+          <Route exact path="/create-patient" element={<CreatePatient />} />
+        </Routes>
+        <Footer />
+    </AuthProvider>
   );
 }
 

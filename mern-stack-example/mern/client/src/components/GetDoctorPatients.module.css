@@ -8,11 +8,6 @@
   gap: 100px;
 }
 
-h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-}
 
 .form-inline {
   display: flex;
@@ -60,6 +55,3 @@ h2 {
   text-decoration: underline;
 }
 
-p {
-  color: #666;
-}

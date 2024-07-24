@@ -11,6 +11,7 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+
 .inputField {
   margin: 10px 0;
   padding: 10px;
@@ -28,3 +29,4 @@
   cursor: pointer;
   font-size: 16px;
 }
+

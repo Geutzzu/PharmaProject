@@ -1,23 +1,7 @@
 .container {
   max-width: 800px;
-  margin: auto;
+  margin: 0 auto;
   padding: 20px;
-}
-
-.flex {
-  display: flex;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.flex-col {
-  flex-direction: column;
-}
-
-.md\\:text-lg {
-  font-size: 1.125rem; /* 18px */
 }
 
 .loading {
@@ -46,6 +30,7 @@
   border-radius: 4px;
   text-decoration: none;
   text-align: center;
+  transition: background-color 0.3s;
 }
 
 .createPrescriptionBtn:hover {
@@ -58,7 +43,8 @@
   margin-top: 20px;
 }
 
-.prescriptionTable th, .prescriptionTable td {
+.prescriptionTable th,
+.prescriptionTable td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;

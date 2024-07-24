@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styles from './CreatePatient.module.css'; // Import the CSS module
+import genericStyles from '../Tests/Components.module.css'; // Import the generic styles
 
 const CreatePatient = () => {
-
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -29,14 +28,56 @@ const CreatePatient = () => {
   }
 
   return (
-    <form onSubmit={onSubmit} className={styles.formContainer}>
-      <input type="text" name="firstName" value={firstName} onChange={onChange} placeholder="First Name" required className={styles.inputField} />
-      <input type="text" name="lastName" value={lastName} onChange={onChange} placeholder="Last Name" required className={styles.inputField} />
-      <input type="text" name="CNP" value={CNP} onChange={onChange} placeholder="CNP" required className={styles.inputField} />
-      <input type="text" name="phone" value={phone} onChange={onChange} placeholder="Phone" required className={styles.inputField} />
-      <input type="email" name="email" value={email} onChange={onChange} placeholder="Email" required className={styles.inputField} />
-      <button type="submit" className={styles.submitButton}>Create Patient</button>
+    <div className={genericStyles.container}>
+    <form onSubmit={onSubmit} className={genericStyles.form}>
+      <input
+        type="text"
+        name="firstName"
+        value={firstName}
+        onChange={onChange}
+        placeholder="First Name"
+        required
+        className={genericStyles.input}
+      />
+      <input
+        type="text"
+        name="lastName"
+        value={lastName}
+        onChange={onChange}
+        placeholder="Last Name"
+        required
+        className={genericStyles.input}
+      />
+      <input
+        type="text"
+        name="CNP"
+        value={CNP}
+        onChange={onChange}
+        placeholder="CNP"
+        required
+        className={genericStyles.input}
+      />
+      <input
+        type="text"
+        name="phone"
+        value={phone}
+        onChange={onChange}
+        placeholder="Phone"
+        required
+        className={genericStyles.input}
+      />
+      <input
+        type="email"
+        name="email"
+        value={email}
+        onChange={onChange}
+        placeholder="Email"
+        required
+        className={genericStyles.input}
+      />
+      <button className={genericStyles.button}>Create Patient</button>
     </form>
+    </div>
   );
 }
 
