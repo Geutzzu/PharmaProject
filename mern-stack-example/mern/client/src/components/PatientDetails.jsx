@@ -46,7 +46,7 @@ const PatientDetails = () => {
       <h2 className={styles.subheader}>Prescriptions</h2>
       <Link to={`/create-prescription/${patientId}`} className={styles.button}>Create Prescription</Link>
       {prescriptions.length > 0 ? (
-        <div className={styles.card}>
+        <div>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -54,6 +54,7 @@ const PatientDetails = () => {
                 <th>Date</th>
                 <th>Notes</th>
                 <th>Medications</th>
+                <th>ID</th>
               </tr>
             </thead>
             <tbody>
@@ -75,6 +76,7 @@ const PatientDetails = () => {
                       ))}
                     </ul>
                   </td>
+                  <td>{prescription.prescriptionID}</td>
                 </tr>
               ))}
             </tbody>

@@ -49,6 +49,7 @@
 /* Subheader Styles */
 .subheader {
   font-size: 1.2em;
+  font-weight: bold;
   color: --text-primary;
   margin-bottom: 15px;
 }

@@ -1,6 +1,7 @@
 // AuthContext.js
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -8,6 +9,8 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthDoctor, setIsAuthDoctor] = useState(false);
   const [isAuthPharmacy, setIsAuthPharmacy] = useState(false);
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -29,9 +32,21 @@ export const AuthProvider = ({ children }) => {
     checkAuthStatus();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+        await axios.get('http://localhost:5050/auth/logout', { withCredentials: true });
+        alert("Logged out successfully!");
+        setIsAuthDoctor(false);
+        setIsAuthPharmacy(false);
+        navigate('/');
+    } catch (err) {
+        console.error('Logout failed:', err);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ isLoading, isAuthDoctor, isAuthPharmacy }}>
-      {children}
+    <AuthContext.Provider value={{ isAuthDoctor, isAuthPharmacy, isLoading, handleLogout }}>
+        {children}
     </AuthContext.Provider>
   );
 };

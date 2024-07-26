@@ -30,10 +30,6 @@ const router = createBrowserRouter([
     path: "/auth/register/pharmacy",
     element: <RegisterPharmacy />,
   },
-  {
-    path: "/auth/logout",
-    element: <Logout />,
-  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

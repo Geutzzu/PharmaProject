@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styles from './FindPrescription.module.css'; // Import the CSS module
+import styles from './FindPrescription.module.css';
+import genericStyles from '../Tests/Components.module.css';
 
 const PrescriptionSearch = () => {
   const [prescriptionID, setPrescriptionID] = useState('');
   const [prescription, setPrescription] = useState(null);
   const [claim, setClaim] = useState(false);
   const [error, setError] = useState('');
- 
 
   const handleSearch = async () => {
     try {
       const response = await axios.get(`http://localhost:5050/api/pharmacy/prescription/${prescriptionID}`, { withCredentials: true });
-      console.log(response.data);
-      if(response.data.length > 0) {
+      if (response.data.length > 0) {
         setPrescription(response.data[0]);
-        console.log(response.data[0]._id);
-        if(response.data[0].pharmacyId) {
+        if (response.data[0].pharmacyId) {
           setClaim(true);
         }
         setError('');
@@ -32,59 +30,67 @@ const PrescriptionSearch = () => {
 
   const handleClaim = async () => {
     try {
-        const response = await axios.patch(`http://localhost:5050/api/pharmacy/prescription/${prescription._id}`, [] , { withCredentials: true });
-        console.log(response.data);
-        if(response) {
-            setClaim(true);
-        } else {
-            setClaim(false);
-        }
-    } catch(err) {
+      const response = await axios.patch(`http://localhost:5050/api/pharmacy/prescription/${prescription._id}`, [], { withCredentials: true });
+      if (response) {
+        setClaim(true);
+      } else {
+        setClaim(false);
+      }
+    } catch (err) {
       console.log(err);
     }
-        
-};
-
+  };
 
   const handleInputChange = (e) => {
     setPrescriptionID(e.target.value);
   };
 
   return (
-    <div className={styles.container}>
-      <h1>Prescription Search</h1>
+    <div className={`${styles.container} ${genericStyles.card}`}>
+      <h1 className={`${genericStyles.header} text-center`}>Prescription Search</h1>
       <input
         type="text"
         value={prescriptionID}
         onChange={handleInputChange}
         placeholder="Enter Prescription ID"
-        className={styles.input}
+        className={`${genericStyles.input} ${styles.input}`}
       />
-      <button onClick={handleSearch} className={styles.button}>Search</button>
-      {error && <p className={styles.error}>{error}</p>}
+      <button onClick={handleSearch} className={`${genericStyles.button} ${styles.button}`}>Search</button>
+      {error && <p className={genericStyles.error}>{error}</p>}
       {prescription && (
-        <div className={styles.details}>
-          <h2>Prescription Details</h2>
+        <div className={`${genericStyles.details} ${styles.details} ${genericStyles.card}`}>
+          <h2 className={genericStyles.subheader}>Prescription Details</h2>
           <p><strong>PrescriptionID:</strong> {prescription.prescriptionID}</p>
           <p><strong>Medications:</strong></p>
           {prescription.medications && prescription.medications.length > 0 ? (
-            <ul>
-              {prescription.medications.map((medication, index) => (
-                <li key={index}>
-                  <p><strong>Name:</strong> {medication.name}</p>
-                  <p><strong>Dosage:</strong> {medication.dosage}</p>
-                  <p><strong>Quantity:</strong> {medication.quantity}</p>
-                  {medication.administration && <p><strong>Administration:</strong> {medication.administration}</p>}
-                  {medication.concentration && <p><strong>Concentration:</strong> {medication.concentration}</p>}
-                </li>
-              ))}
-            </ul>
+            <table className={genericStyles.table}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Dosage</th>
+                  <th>Quantity</th>
+                  <th>Administration</th>
+                  <th>Concentration</th>
+                </tr>
+              </thead>
+              <tbody>
+                {prescription.medications.map((medication, index) => (
+                  <tr key={index}>
+                    <td>{medication.name}</td>
+                    <td>{medication.dosage}</td>
+                    <td>{medication.quantity}</td>
+                    <td>{medication.administration || 'N/A'}</td>
+                    <td>{medication.concentration || 'N/A'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           ) : (
             <p>No medications found for this prescription.</p>
           )}
-          <p><strong> Claimed:</strong> {String(claim)}</p>
+          <p><strong>Claimed:</strong> {String(claim)}</p>
           {prescription.notes && <p><strong>Notes:</strong> {prescription.notes}</p>}
-          <button onClick={handleClaim} className={styles.button}>Claim Prescription</button>
+          <button onClick={handleClaim} className={`${genericStyles.button} ${styles.button}`}>Claim Prescription</button>
         </div>
       )}
     </div>

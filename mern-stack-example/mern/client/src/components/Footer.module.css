@@ -1,68 +1,64 @@
-/* Footer.module.css */
-
 :root {
-    /* Primary Blue Shades */
-    --primary-blue: #007bff;
-    --primary-blue-light: #66b2ff;
-    --primary-blue-dark: #0056b3;
-  
-    /* Complementary Colors */
-    --secondary-gray: #6c757d;
-    --secondary-light-gray: #f8f9fa;
-    --secondary-dark-gray: #343a40;
-  
-    /* Accent Colors */
-    --accent-teal: #20c997;
-    --accent-cyan: #17a2b8;
-    --accent-light-cyan: #e0f7fa;
-  
-    /* Text Colors */
-    --text-primary: #212529;
-    --text-secondary: #6c757d;
-    --text-white: #ffffff;
-  
-    /* Background Colors */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
-    --bg-dark: #343a40;
-  }
-  
+  /* Primary Blue Shades */
+  --primary-blue: #007bff;
+  --primary-blue-light: #66b2ff;
+  --primary-blue-dark: #0056b3;
 
+  /* Complementary Colors */
+  --secondary-gray: #6c757d;
+  --secondary-light-gray: #f8f9fa;
+  --secondary-dark-gray: #343a40;
+
+  /* Accent Colors */
+  --accent-teal: #20c997;
+  --accent-cyan: #17a2b8;
+  --accent-light-cyan: #e0f7fa;
+
+  /* Text Colors */
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --text-white: #ffffff;
+
+  /* Background Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-dark: #343a40;
+}
 
 .footer {
-    background-color: var(--bg-dark);
-    color: var(--text-white);
-    padding: 20px;
-    text-align: center;
-    border-top: 5px solid var(--secondary-dark-gray);
-    margin-top: 40vh;
-  }
-  
+  background-color: var(--bg-dark);
+  color: var(--text-white);
+  padding: 20px;
+  text-align: center;
+  border-top: 5px solid var(--secondary-dark-gray);
+  margin-top: auto;
+  width: 100%;
+  margin-top: 50vh;
+}
 
-  .footerContent p {
-    margin: 0;
-    color: var(--text-white);
-    
-  }
-  .footerContent {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  
-  .footerSection {
-    margin-top: 10px;
-    margin-left: 5vw;
-  }
-  
-  .footerLink {
-    color: var(--text-white);
-    text-decoration: none;
-    margin-right: 5vw;
-  }
-  
-  .footerLink:hover {
-    text-decoration: underline;
-  }
-  
+.footerContent p {
+  margin: 0;
+  color: var(--text-white);
+}
+
+.footerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footerSection {
+  margin-top: 10px;
+  margin-left: 5vw;
+}
+
+.footerLink {
+  color: var(--text-white);
+  text-decoration: none;
+  margin-right: 5vw;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}

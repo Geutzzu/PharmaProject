@@ -1,19 +1,44 @@
+@keyframes moveGradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.loginBackground {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  z-index: -1;
+}
 
 
 .loginBackground {
-  background: 
-    linear-gradient(to left, rgba(0, 0, 255, 0.5), rgba(0, 255, 255, 0.5)), 
-    url('../assets/image.jpg');
-  background-size: cover; 
-  background-repeat: no-repeat; 
-  background-position: center; 
-  background-blend-mode: overlay; 
+  position: relative;
   width: 100%;
   height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(to left, rgba(0, 0, 255, 0.5), var(--primary-blue-light), rgba(0, 0, 255, 0.5));
+  background-size: 200% 200%;
+  animation: moveGradient 20s linear infinite;
   margin: 0;
-  padding: 0%;
-  border: none;
+  padding: 0;
 }
+
 
 
 
@@ -23,6 +48,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  z-index: 2;
 }
 
 .container {
@@ -36,11 +62,12 @@
   text-align: center;
   gap: 20px;
   border: 0px solid #333;
-  border-radius: 15px;
+  border-radius: 10px;
   padding: 20px;
   box-sizing: border-box;
   background-color: white; /* Set the background color to plain white */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a slight shadow */
+  z-index: 2;
 }
 
 /* Form Styles */

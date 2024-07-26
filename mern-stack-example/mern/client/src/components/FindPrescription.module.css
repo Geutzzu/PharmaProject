@@ -1,51 +1,46 @@
-
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-  }
-  
-  .input {
-    width: 300px;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .button {
-    padding: 10px 20px;
-    border: none;
-    background-color: #007BFF;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .button:hover {
-    background-color: #0056b3;
-  }
-  
-  .error {
-    color: red;
-    margin-top: 20px;
-  }
-  
-  .details {
-    margin-top: 20px;
-    text-align: left;
-  }
-  
-  .details p {
-    margin: 5px 0;
-  }
-  
-  .details ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  
-  .details li {
-    margin-bottom: 10px;
-  }
+  background-color: var(--bg-primary);
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input {
+  width: 60%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.button {
+  background-color: var(--primary-blue);
+  color: var(--text-white);
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.button:hover {
+  background-color: var(--primary-blue-dark);
+}
+
+.details {
+  margin-top: 20px;
+  text-align: left;
+  width: 100%;
+}
+
+.error {
+  color: var(--text-secondary);
+  margin-top: 10px;
+}

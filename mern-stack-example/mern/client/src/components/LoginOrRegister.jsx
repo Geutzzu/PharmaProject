@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './LoginOrRegister.module.css'; // Import the combined CSS
+import genericStyles from '../Tests/Components.module.css'; // Import the generic styles
 
 
 const LoginOrRegister = () => {
@@ -42,8 +43,8 @@ const LoginOrRegister = () => {
 
   return (
     <div className={`${styles.container1} ${styles.loginBackground}`}>
-      <div className={styles.container}>
-        <h1 className={`${styles.whiteText} ${styles.title} text-3xl font-bold text-center`}>Welcome to Pharma Chestie</h1>
+      <div className={`${styles.container} ${genericStyles.card} `}>
+        <h1 className={`${styles.whiteText} ${styles.title} text-3xl font-bold text-center`}>Welcome to Pharma</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
           <h2>Login</h2>
           <input
@@ -64,8 +65,8 @@ const LoginOrRegister = () => {
           {error && <p>{error}</p>}
         </form>
         <div className={styles.buttonContainer}>
-          <Link to="/auth/register/doctor" className="inline-block ml-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-150 ease-in-out">Register as a doctor</Link>
-          <Link to="/auth/register/pharmacy" className="inline-block ml-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-150 ease-in-out">Register as a pharmacy</Link>
+          <Link to="/auth/register/doctor" className="inline-block ml-4 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 transition duration-150 ease-in-out">Register as a doctor</Link>
+          <Link to="/auth/register/pharmacy" className="inline-block ml-4 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 transition duration-150 ease-in-out">Register as a pharmacy</Link>
         </div>
       </div>
     </div>

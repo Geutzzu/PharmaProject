@@ -30,9 +30,9 @@ const Navbar = () => {
             <Link to="/profile/details" className={styles.dropdownItem}>
               Details
             </Link>
-            <Link to="/auth/logout" className={styles.dropdownItem}>
-              Logout
-            </Link>
+            <span className={styles.dropdownItem} onClick={handleLogout}>
+                Logout
+            </span>
           </div>
         )}
       </div>
@@ -41,11 +41,6 @@ const Navbar = () => {
 
   const renderPharmacyLinks = () => (
     <>
-      <div className={styles.navbarItem}>
-        <Link to="/orders" className={styles.navbarLink}>
-          Orders
-        </Link>
-      </div>
       <div className={styles.navbarItem} onClick={handlePharmacyDropdownToggle}>
         <span className={styles.navbarLink}>Profile</span>
         {isPharmacyDropdownOpen && (
@@ -53,16 +48,16 @@ const Navbar = () => {
             <Link to="/profile/details" className={styles.dropdownItem}>
               Details
             </Link>
-            <Link to="/auth/logout" className={styles.dropdownItem}>
-              Logout
-            </Link>
+            <span className={styles.dropdownItem} onClick={handleLogout}>
+                Logout
+            </span>
           </div>
         )}
       </div>
     </>
   );
 
-  const { isAuthDoctor, isAuthPharmacy } = useAuth();
+  const { isAuthDoctor, isAuthPharmacy, handleLogout } = useAuth();
 
   if (!isAuthDoctor && !isAuthPharmacy) {
     return null;
