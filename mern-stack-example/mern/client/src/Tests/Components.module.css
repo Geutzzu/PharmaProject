@@ -1,3 +1,5 @@
+
+/* Components.module.css */
 /* Variables */
 :root {
   /* Primary Blue Shades */
@@ -89,7 +91,6 @@
   padding: 10px 20px;
   font-size: 1em;
   cursor: pointer;
-  margin-top: 10px;
   transition: background-color 0.3s ease;
 }
 
@@ -169,6 +170,7 @@
 .table td {
   padding: 12px 15px;
   border: 1px solid #dee2e6;
+  text-align: left;
 }
 
 .table th {

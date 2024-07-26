@@ -1,65 +1,98 @@
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+
+@import url('../Tests/Components.module.css');
+
+.medications {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
 }
 
-.loading {
-  text-align: center;
-  font-size: 1.5rem;
-  margin-top: 50px;
+.medicationsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: start;
+  gap: 10px;
 }
 
-.patientDetails {
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+.expandButton {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-.patientDetails p {
-  margin: 5px 0;
-}
-
-.createPrescriptionBtn {
+.arrow {
   display: inline-block;
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border-radius: 4px;
-  text-decoration: none;
+  transition: transform 0.3s;
+}
+
+.expanded {
+  transform: rotate(180deg);
+}
+
+
+.claimed {
+  background-color: rgba(0, 128, 0, 0.3); /* Green with 20% opacity */
+  color: black;
   text-align: center;
-  transition: background-color 0.3s;
 }
 
-.createPrescriptionBtn:hover {
-  background-color: #0056b3;
+.unclaimed {
+  background-color: rgba(255, 0, 0, 0.3); /* Red with 20% opacity */
+  color: black;
+  text-align: center;
 }
 
-.prescriptionTable {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+.marginBottom {
+  margin-bottom: 50px;
 }
 
-.prescriptionTable th,
-.prescriptionTable td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+/* for dimensions for the table */
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.prescriptionTable th {
-  background-color: #f2f2f2;
-  font-weight: bold;
+.refreshButton {
+  background-color: var(--primary-blue);
+  color: var(--text-white);
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.prescriptionTable td ul {
-  list-style-type: none;
-  padding: 0;
+.refreshButton:hover {
+  background-color: var(--primary-blue-dark);
 }
 
-.prescriptionTable td ul li {
-  margin: 5px 0;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.refreshIcon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.refreshButton:active .refreshIcon,
+.refreshButton.spinning .refreshIcon {
+  animation: spin 1s linear infinite;
+}
+
+.refreshContainer {
+  margin-top: -8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

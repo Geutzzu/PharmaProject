@@ -158,13 +158,29 @@ router.post(
 );
 
 // Get all prescriptions for a doctor
+// Get all prescriptions for a doctor
 router.get('/doctor/:doctorId/prescriptions', protectDoctor, async (req, res) => {
   try {
-    const prescriptions = await Prescription.find({ doctorId: req.params.doctorId }).populate('patientId').populate('doctorId');
+    // Find prescriptions for the doctor
+    const prescriptions = await Prescription.find({ doctorId: req.params.doctorId })
+      .populate('patientId')
+      .populate('doctorId');
+
     if (!prescriptions.length) {
       return res.status(404).json({ message: 'No prescriptions found for this doctor' });
     }
-    res.json(prescriptions);
+
+    // Check if any prescription has a pharmacyID and populate it
+    const populatedPrescriptions = await Promise.all(
+      prescriptions.map(async (prescription) => {
+        if (prescription.pharmacyID) {
+          return await prescription.populate('pharmacyID').execPopulate();
+        }
+        return prescription;
+      })
+    );
+
+    res.json(populatedPrescriptions);
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');
@@ -174,16 +190,56 @@ router.get('/doctor/:doctorId/prescriptions', protectDoctor, async (req, res) =>
 // Get all prescriptions for a patient (by patient ID)
 router.get('/patients/:patientId/prescriptions', protectDoctor, async (req, res) => {
   try {
-    const prescriptions = await Prescription.find({ patientId: req.params.patientId }).populate('doctorId').populate('patientId');
+    const prescriptions = await Prescription.find({ patientId: req.params.patientId }).populate('doctorId');
     if (!prescriptions.length) {
       return res.status(404).json({ message: 'No prescriptions found for this patient' });
     }
-    res.json(prescriptions);
+
+    // Check if any prescription has a pharmacyID and populate it
+    const populatedPrescriptions = await Promise.all(
+      prescriptions.map(async (prescription) => {
+        if (prescription.pharmacyId) {
+          return await Prescription.populate(prescription, { path: 'pharmacyId' });
+        }
+        return prescription;
+      })
+    );
+
+    res.json(populatedPrescriptions);
+
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');
   }
 });
+
+/*
+try {
+    // Find prescriptions for the doctor
+    const prescriptions = await Prescription.find({ doctorId: req.params.doctorId })
+      .populate('patientId')
+      .populate('doctorId');
+
+    if (!prescriptions.length) {
+      return res.status(404).json({ message: 'No prescriptions found for this doctor' });
+    }
+
+    // Check if any prescription has a pharmacyID and populate it
+    const populatedPrescriptions = await Promise.all(
+      prescriptions.map(async (prescription) => {
+        if (prescription.pharmacyID) {
+          return await prescription.populate('pharmacyID').execPopulate();
+        }
+        return prescription;
+      })
+    );
+
+    res.json(populatedPrescriptions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+
+ */
 
 
 // Gel all the information about a patient (aside from prescriptions)

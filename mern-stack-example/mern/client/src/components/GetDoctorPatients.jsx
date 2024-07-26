@@ -25,7 +25,7 @@ const GetDoctorPatients = () => {
     <div className={genericStyles.container}>
       <h2 className={genericStyles.header}>Your Patients</h2>
       {patients.length > 0 && (
-        <div className={genericStyles.card}>
+        <div>
           <table className={genericStyles.table}>
             <thead>
               <tr>

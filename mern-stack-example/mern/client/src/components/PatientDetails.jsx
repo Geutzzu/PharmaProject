@@ -1,41 +1,89 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
-import styles from '../Tests/Components.module.css'; // Using the generic styles
+import genericStyles from '../Tests/Components.module.css'; // Using the generic styles
+import styles from './PatientDetails.module.css'; // Importing the local styles
+
+const downArrow = (
+  <svg
+    width="30"
+    height="30"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M7 10l5 5 5-5"
+      stroke="black"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const RefreshIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" className={`${styles.refreshIcon}  `} height="24px" width="23px" fill='white' version="1.1" id="Capa_1" viewBox="0 0 489.645 489.645" xml:space="preserve">
+    <g>
+	    <path d="M460.656,132.911c-58.7-122.1-212.2-166.5-331.8-104.1c-9.4,5.2-13.5,16.6-8.3,27c5.2,9.4,16.6,13.5,27,8.3   c99.9-52,227.4-14.9,276.7,86.3c65.4,134.3-19,236.7-87.4,274.6c-93.1,51.7-211.2,17.4-267.6-70.7l69.3,14.5   c10.4,2.1,21.8-4.2,23.9-15.6c2.1-10.4-4.2-21.8-15.6-23.9l-122.8-25c-20.6-2-25,16.6-23.9,22.9l15.6,123.8   c1,10.4,9.4,17.7,19.8,17.7c12.8,0,20.8-12.5,19.8-23.9l-6-50.5c57.4,70.8,170.3,131.2,307.4,68.2   C414.856,432.511,548.256,314.811,460.656,132.911z"/>
+    </g>
+</svg>
+);
 
 const PatientDetails = () => {
   const { patientId } = useParams();
   const [patient, setPatient] = useState(null);
   const [prescriptions, setPrescriptions] = useState([]);
-  const [date, setDate] = useState('');
+  const [expandedMedications, setExpandedMedications] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const fetchPatientData = async () => {
+    try {
+      setLoading(true);
+      const patientRes = await axios.get(`http://localhost:5050/api/patients/${patientId}`, { withCredentials: true });
+      setPatient(patientRes.data);
+
+      const prescriptionsRes = await axios.get(`http://localhost:5050/api/patients/${patientId}/prescriptions`, { withCredentials: true });
+      const prescriptionsData = prescriptionsRes.data.map(prescription => {
+        const createdAtDate = new Date(prescription.createdAt);
+        const updatedAtDate = new Date(prescription.updatedAt);
+
+        const formattedDate = createdAtDate.toISOString().split('T')[0];
+        const formattedUpdatedDate = `${updatedAtDate.toISOString().split('T')[0]} - ${updatedAtDate.getHours()}:${String(updatedAtDate.getMinutes()).padStart(2, '0')}`;
+
+        return {
+          ...prescription,
+          date: formattedDate,
+          status: prescription.pharmacyId ? `Claimed by pharmacy: ${prescription.pharmacyId.pharmacyName} at ${formattedUpdatedDate}` : 'Unclaimed'
+        };
+      });
+
+      setPrescriptions(prescriptionsData);
+    } catch (err) {
+      console.error(err);
+      alert('Error retrieving patient details or prescriptions!');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchPatientData = async () => {
-      try {
-        const patientRes = await axios.get(`http://localhost:5050/api/patients/${patientId}`, { withCredentials: true });
-        setPatient(patientRes.data);
-
-        const prescriptionsRes = await axios.get(`http://localhost:5050/api/patients/${patientId}/prescriptions`, { withCredentials: true });
-        setPrescriptions(prescriptionsRes.data);
-
-        const initialDate = patientRes.data.createdAt;
-        const formattedDate = initialDate.split('T')[0];
-        setDate(formattedDate);
-      } catch (err) {
-        console.error(err);
-        alert('Error retrieving patient details or prescriptions!');
-      }
-    };
-
     fetchPatientData();
   }, [patientId]);
 
-  if (!patient) return <div className={styles.loading}>Loading...</div>;
+  const toggleMedications = (prescriptionId) => {
+    setExpandedMedications(prevState => ({
+      ...prevState,
+      [prescriptionId]: !prevState[prescriptionId]
+    }));
+  };
+
+  if (!patient) return <div className={genericStyles.loading}>Loading...</div>;
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.header}>Patient Details</h2>
-      <div className={`${styles.flexColumn} ${styles.card}`}>
+    <div className={genericStyles.container}>
+      <h2 className={genericStyles.header}>Patient Details</h2>
+      <div className={`${genericStyles.flexColumn} ${genericStyles.card}`}>
         <p><strong>First Name:</strong> {patient.firstName}</p>
         <p><strong>Last Name:</strong> {patient.lastName}</p>
         <p><strong>CNP:</strong> {patient.CNP}</p>
@@ -43,48 +91,80 @@ const PatientDetails = () => {
         <p><strong>Email:</strong> {patient.email}</p>
       </div>
 
-      <h2 className={styles.subheader}>Prescriptions</h2>
-      <Link to={`/create-prescription/${patientId}`} className={styles.button}>Create Prescription</Link>
-      {prescriptions.length > 0 ? (
-        <div>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>Date</th>
-                <th>Notes</th>
-                <th>Medications</th>
-                <th>ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {prescriptions.map((prescription, index) => (
-                <tr key={prescription._id}>
-                  <td>{index + 1}</td>
-                  <td>{date}</td>
-                  <td>{prescription.notes}</td>
-                  <td>
-                    <ul className={styles.list}>
-                      {prescription.medications.map((medication, index) => (
-                        <li key={index} className={`${styles.listItem} ${styles.flexColumn}`}>
-                          <p><strong>Name:</strong> {medication.name}</p>
-                          <p><strong>Dosage:</strong> {medication.dosage}</p>
-                          <p><strong>Quantity:</strong> {medication.quantity}</p>
-                          <p><strong>Administration:</strong> {medication.administration}</p>
-                          <p><strong>Concentration:</strong> {medication.concentration}</p>
-                        </li>
-                      ))}
-                    </ul>
-                  </td>
-                  <td>{prescription.prescriptionID}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <div className={genericStyles.card}>
+      <h2 className={`${genericStyles.subheader}`}>Prescriptions</h2>
+        <div className={styles.refreshContainer}>
+        <Link to={`/create-prescription/${patientId}`} className={` ${genericStyles.button} `}>Create Prescription</Link>
+          <button
+            className={`${styles.refreshButton} ${loading ? 'spinning' : ''}`}
+            onClick={fetchPatientData}
+            disabled={loading}
+          >
+            <RefreshIcon />
+          </button>
+         
         </div>
-      ) : (
-        <p>No prescriptions found for this patient.</p>
-      )}
+       
+        {prescriptions.length > 0 ? (
+          <div>
+            <table className={`${genericStyles.table} ${styles.table}`}>
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Date</th>
+                  <th>Notes</th>
+                  <th>Medications</th>
+                  <th>ID</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {prescriptions.map((prescription, index) => (
+                  <tr key={prescription._id}>
+                    <td>{index + 1}</td>
+                    <td>{prescription.date}</td>
+                    <td>{prescription.notes}</td>
+                    <td>
+                      <div className={styles.medicationsContainer}>
+                        <ul className={genericStyles.list}>
+                          {prescription.medications.slice(0, expandedMedications[prescription._id] ? prescription.medications.length : 1).map((medication, medIndex) => (
+                            <li key={medIndex} className={`${genericStyles.listItem} ${styles.medications}`}>
+                              <p><strong>Name:</strong> {medication.name}</p>
+                              <p><strong>Dosage:</strong> {medication.dosage}</p>
+                              <p><strong>Quantity:</strong> {medication.quantity}</p>
+                              {medication.administration && <p><strong>Administration:</strong> {medication.administration}</p>}
+                              {medication.concentration && <p><strong>Concentration:</strong> {medication.concentration}</p>}
+                            </li>
+                          ))}
+                        </ul>
+                        {prescription.medications.length > 1 && (
+                          <button
+                            className={styles.expandButton}
+                            onClick={() => toggleMedications(prescription._id)}
+                          >
+                            <div
+                              className={`${styles.arrow} ${expandedMedications[prescription._id] ? styles.expanded : ''}`}
+                            >
+                              {downArrow}
+                            </div>
+                          </button>
+                        )}
+                      </div>
+                      {!expandedMedications[prescription._id] && prescription.medications.length > 1 && (
+                        <p>and {prescription.medications.length - 1} more...</p>
+                      )}
+                    </td>
+                    <td>{prescription.prescriptionID}</td>
+                    <td className={prescription.pharmacyId ? styles.claimed : styles.unclaimed}>{prescription.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p>No prescriptions found for this patient.</p>
+        )}
+      </div>
     </div>
   );
 };
