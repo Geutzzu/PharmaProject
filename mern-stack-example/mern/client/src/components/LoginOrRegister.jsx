@@ -44,7 +44,7 @@ const LoginOrRegister = () => {
   return (
     <div className={`${styles.container1} ${styles.loginBackground}`}>
       <div className={`${styles.container} ${genericStyles.card} `}>
-        <h1 className={`${styles.whiteText} ${styles.title} text-3xl font-bold text-center`}>Welcome to Pharma</h1>
+        <h1 className={`${styles.whiteText} ${styles.title} text-3xl font-bold text-center`}>Bine ati venit la Pharma!</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
           <h2>Login</h2>
           <input
@@ -56,7 +56,7 @@ const LoginOrRegister = () => {
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Parola"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -65,8 +65,8 @@ const LoginOrRegister = () => {
           {error && <p>{error}</p>}
         </form>
         <div className={styles.buttonContainer}>
-          <Link to="/auth/register/doctor" className="inline-block ml-4 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 transition duration-150 ease-in-out">Register as a doctor</Link>
-          <Link to="/auth/register/pharmacy" className="inline-block ml-4 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 transition duration-150 ease-in-out">Register as a pharmacy</Link>
+          <Link to="/auth/register/doctor" className="inline-block ml-4 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 transition duration-150 ease-in-out">Inregistreaza un cont de doctor</Link>
+          <Link to="/auth/register/pharmacy" className="inline-block ml-4 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 transition duration-150 ease-in-out">Inregistreaza un cont de farmacie</Link>
         </div>
       </div>
     </div>

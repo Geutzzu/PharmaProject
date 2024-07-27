@@ -51,7 +51,7 @@ const CreatePrescription = () => {
             name="name" 
             value={medication.name} 
             onChange={(e) => onChange(e, index)} 
-            placeholder="Medication Name" 
+            placeholder="Nume medicament" 
             required 
             className={genericStyles.input}
           />
@@ -60,7 +60,7 @@ const CreatePrescription = () => {
             name="dosage" 
             value={medication.dosage} 
             onChange={(e) => onChange(e, index)} 
-            placeholder="Dosage" 
+            placeholder="Dozaj" 
             required 
             className={genericStyles.input}
           />
@@ -69,7 +69,7 @@ const CreatePrescription = () => {
             name="quantity" 
             value={medication.quantity} 
             onChange={(e) => onChange(e, index)} 
-            placeholder="Quantity" 
+            placeholder="Cantitate" 
             required 
             min="1" 
             className={genericStyles.input}
@@ -79,7 +79,7 @@ const CreatePrescription = () => {
             name="administration"
             value={medication.administration}
             onChange={(e) => onChange(e, index)}
-            placeholder="Administration"
+            placeholder="Administrare"
             className={genericStyles.input}
           />
           <input
@@ -87,23 +87,23 @@ const CreatePrescription = () => {
             name="concentration"
             value={medication.concentration}
             onChange={(e) => onChange(e, index)}
-            placeholder="Concentration"
+            placeholder="Concentratie"
             className={genericStyles.input}
           />
           <button  onClick={() => removeMedication(index)} className={genericStyles.button}>
-            Remove
+            Sterge
           </button>
         </div>
       ))}
-      <button onClick={addMedication} className={`${genericStyles.button} ${styles.addMedicationButton}`}>Add Medication</button>
+      <button onClick={addMedication} className={`${genericStyles.button} ${styles.addMedicationButton}`}>Adauga medicament</button>
       <textarea 
         name="notes" 
         value={notes} 
         onChange={(e) => setFormData({ ...formData, notes: e.target.value })} 
-        placeholder="Notes" 
+        placeholder="Observatii" 
         className={genericStyles.textarea}
       />
-      <button className={genericStyles.button}>Create Prescription</button>
+      <button className={genericStyles.button}>Creeaza o reteta</button>
     </form>
     </div>
   );

@@ -54,7 +54,7 @@ const PatientDetails = () => {
         return {
           ...prescription,
           date: formattedDate,
-          status: prescription.pharmacyId ? `Claimed by pharmacy: ${prescription.pharmacyId.pharmacyName} at ${formattedUpdatedDate}` : 'Unclaimed'
+          status: prescription.pharmacyId ? `Revendicat la  ${prescription.pharmacyId.pharmacyName} in data de ${formattedUpdatedDate}` : 'Nerevendicat'
         };
       });
 
@@ -82,19 +82,19 @@ const PatientDetails = () => {
 
   return (
     <div className={genericStyles.container}>
-      <h2 className={genericStyles.header}>Patient Details</h2>
+      <h2 className={genericStyles.header}>Detalii Pacient</h2>
       <div className={`${genericStyles.flexColumn} ${genericStyles.card}`}>
-        <p><strong>First Name:</strong> {patient.firstName}</p>
-        <p><strong>Last Name:</strong> {patient.lastName}</p>
+        <p><strong>Prenume:</strong> {patient.firstName}</p>
+        <p><strong>Nume de Familie:</strong> {patient.lastName}</p>
         <p><strong>CNP:</strong> {patient.CNP}</p>
-        <p><strong>Phone:</strong> {patient.phone}</p>
+        <p><strong>Telefon:</strong> {patient.phone}</p>
         <p><strong>Email:</strong> {patient.email}</p>
       </div>
 
       <div className={genericStyles.card}>
-      <h2 className={`${genericStyles.subheader}`}>Prescriptions</h2>
+      <h2 className={`${genericStyles.subheader}`}>Retete</h2>
         <div className={styles.refreshContainer}>
-        <Link to={`/create-prescription/${patientId}`} className={` ${genericStyles.button} `}>Create Prescription</Link>
+        <Link to={`/create-prescription/${patientId}`} className={` ${genericStyles.button} `}>Creeaza o reteta</Link>
           <button
             className={`${styles.refreshButton} ${loading ? 'spinning' : ''}`}
             onClick={fetchPatientData}
@@ -110,12 +110,12 @@ const PatientDetails = () => {
             <table className={`${genericStyles.table} ${styles.table}`}>
               <thead>
                 <tr>
-                  <th>No.</th>
-                  <th>Date</th>
-                  <th>Notes</th>
-                  <th>Medications</th>
+                  <th>Nr.</th>
+                  <th>Data</th>
+                  <th>Observatii</th>
+                  <th>Medicamente</th>
                   <th>ID</th>
-                  <th>Status</th>
+                  <th>Stare</th>
                 </tr>
               </thead>
               <tbody>
@@ -129,11 +129,11 @@ const PatientDetails = () => {
                         <ul className={genericStyles.list}>
                           {prescription.medications.slice(0, expandedMedications[prescription._id] ? prescription.medications.length : 1).map((medication, medIndex) => (
                             <li key={medIndex} className={`${genericStyles.listItem} ${styles.medications}`}>
-                              <p><strong>Name:</strong> {medication.name}</p>
-                              <p><strong>Dosage:</strong> {medication.dosage}</p>
-                              <p><strong>Quantity:</strong> {medication.quantity}</p>
-                              {medication.administration && <p><strong>Administration:</strong> {medication.administration}</p>}
-                              {medication.concentration && <p><strong>Concentration:</strong> {medication.concentration}</p>}
+                              <p><strong>Nume:</strong> {medication.name}</p>
+                              <p><strong>Dozaj:</strong> {medication.dosage}</p>
+                              <p><strong>Cantitate:</strong> {medication.quantity}</p>
+                              {medication.administration && <p><strong>Administrare:</strong> {medication.administration}</p>}
+                              {medication.concentration && <p><strong>Concentratie:</strong> {medication.concentration}</p>}
                             </li>
                           ))}
                         </ul>
@@ -151,7 +151,7 @@ const PatientDetails = () => {
                         )}
                       </div>
                       {!expandedMedications[prescription._id] && prescription.medications.length > 1 && (
-                        <p>and {prescription.medications.length - 1} more...</p>
+                        <p>si {prescription.medications.length - 1} mai multe...</p>
                       )}
                     </td>
                     <td>{prescription.prescriptionID}</td>
@@ -162,7 +162,7 @@ const PatientDetails = () => {
             </table>
           </div>
         ) : (
-          <p>No prescriptions found for this patient.</p>
+          <p>Nu am gasit retete pentru pacient.</p>
         )}
       </div>
     </div>

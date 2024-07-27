@@ -20,15 +20,15 @@ const Navbar = () => {
     <>
       <div className={styles.navbarItem}>
         <Link to="/get-doctor-patients" className={styles.navbarLink}>
-          Patients
+          Pacienti
         </Link>
       </div>
       <div className={styles.navbarItem} onClick={handleDoctorDropdownToggle}>
-        <span className={styles.navbarLink}>Profile</span>
+        <span className={styles.navbarLink}>Profil</span>
         {isDoctorDropdownOpen && (
           <div className={styles.dropdown}>
             <Link to="/profile/details" className={styles.dropdownItem}>
-              Details
+              Detalii
             </Link>
             <span className={styles.dropdownItem} onClick={handleLogout}>
                 Logout
@@ -42,11 +42,11 @@ const Navbar = () => {
   const renderPharmacyLinks = () => (
     <>
       <div className={styles.navbarItem} onClick={handlePharmacyDropdownToggle}>
-        <span className={styles.navbarLink}>Profile</span>
+        <span className={styles.navbarLink}>Profil</span>
         {isPharmacyDropdownOpen && (
           <div className={styles.dropdown}>
             <Link to="/profile/details" className={styles.dropdownItem}>
-              Details
+              Detalii
             </Link>
             <span className={styles.dropdownItem} onClick={handleLogout}>
                 Logout
@@ -67,7 +67,7 @@ const Navbar = () => {
     <nav className={styles.navbar}>
       <div className={styles.navbarLogo}>
         <img src={logo} alt="Logo" />
-        <h2>Welcome to Pharma!</h2>
+        <h2>Bine ati venit la Pharma!</h2>
       </div>
       <div className={styles.navbarMenu}>
         {isAuthDoctor && renderDoctorLinks()}

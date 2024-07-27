@@ -28,10 +28,10 @@ const PharmacyRegistration = () => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <h2>Register Pharmacy</h2>
+      <h2>Inregistreaza o farmacie</h2>
       <input
         type="text"
-        placeholder="Pharmacy Name"
+        placeholder="Numele Farmaciei"
         value={pharmacyName}
         onChange={(e) => setPharmacyName(e.target.value)}
         required
@@ -45,26 +45,26 @@ const PharmacyRegistration = () => {
       />
       <input
         type="password"
-        placeholder="Password"
+        placeholder="Parola"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
       />
       <input
         type="text"
-        placeholder="Address"
+        placeholder="Adresa"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
         required
       />
       <input
         type="text"
-        placeholder="Phone"
+        placeholder="Telefon"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
         required
       />
-      <button type="submit">Register</button>
+      <button type="submit">Inregistreaza-te</button>
       {error && <p>{error}</p>}
     </form>
   );

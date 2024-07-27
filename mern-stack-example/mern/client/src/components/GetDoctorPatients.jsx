@@ -23,15 +23,15 @@ const GetDoctorPatients = () => {
 
   return (
     <div className={genericStyles.container}>
-      <h2 className={genericStyles.header}>Your Patients</h2>
+      <h2 className={genericStyles.header}>Pacienti</h2>
       {patients.length > 0 && (
         <div>
           <table className={genericStyles.table}>
             <thead>
               <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Details</th>
+                <th>Prenume</th>
+                <th>Nume de Familie</th>
+                <th>Detalii</th>
               </tr>
             </thead>
             <tbody>
@@ -40,7 +40,7 @@ const GetDoctorPatients = () => {
                   <td>{patient.firstName}</td>
                   <td>{patient.lastName}</td>
                   <td>
-                    <Link to={`/patients/${patient._id}`} className={styles['details-link']}>View Details</Link>
+                    <Link to={`/patients/${patient._id}`} className={styles['details-link']}>Vizioneaza detalii</Link>
                   </td>
                 </tr>
               ))}
@@ -49,11 +49,11 @@ const GetDoctorPatients = () => {
         </div>
       )}
       {patients.length === 0 && (
-        <p>No patients found. Please refresh the page to try again.</p>
+        <p>Nici-un pacient gasit. Va rugam reincarcati pagina.</p>
       )}
 
       <div className={genericStyles.marginBottom}>
-        <Link to="/create-patient"><button className={genericStyles.button}>Create Patient</button></Link>
+        <Link to="/create-patient"><button className={genericStyles.button}>Creeaza un pacient</button></Link>
       </div>
     </div>
   );

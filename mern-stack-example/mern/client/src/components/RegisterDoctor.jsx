@@ -38,24 +38,24 @@ const DoctorRegistration = () => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <h2>Register Doctor</h2>
+      <h2>Inregistreaza un doctor</h2>
       <input
         type="text"
-        placeholder="Username"
+        placeholder="Numele Utilizatorului"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         required
       />
       <input
         type="text"
-        placeholder="First Name"
+        placeholder="Prenume"
         value={firstname}
         onChange={(e) => setFirstname(e.target.value)}
         required
       />
       <input
         type="text"
-        placeholder="Last Name"
+        placeholder="Nume de Familie"
         value={lastname}
         onChange={(e) => setLastname(e.target.value)}
         required
@@ -69,21 +69,21 @@ const DoctorRegistration = () => {
       />
       <input
         type="text"
-        placeholder="Clinic Name"
+        placeholder="Numele Clinicii"
         value={clinicName}
         onChange={(e) => setClinicName(e.target.value)}
         required
       />
       <input
         type="text"
-        placeholder="Clinic Address"
+        placeholder="Adresa Clinicii"
         value={clinicAddress}
         onChange={(e) => setClinicAddress(e.target.value)}
         required
       />
       <input
         type="text"
-        placeholder="Clinic Phone"
+        placeholder="Telefonul Clinicii"
         value={clinicPhone}
         onChange={(e) => setClinicPhone(e.target.value)}
         required
@@ -97,19 +97,19 @@ const DoctorRegistration = () => {
       />
       <input
         type="password"
-        placeholder="Password"
+        placeholder="Parola"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
       />
       <input
         type="text"
-        placeholder="Phone"
+        placeholder="Telefon"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
         required
       />
-      <button type="submit">Register</button>
+      <button type="submit">Inregistreaza-te</button>
       {error && <p>{error}</p>}
     </form>
   );

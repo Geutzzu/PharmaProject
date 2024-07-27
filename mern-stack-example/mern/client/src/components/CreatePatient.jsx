@@ -35,7 +35,7 @@ const CreatePatient = () => {
         name="firstName"
         value={firstName}
         onChange={onChange}
-        placeholder="First Name"
+        placeholder="Prenume"
         required
         className={genericStyles.input}
       />
@@ -44,7 +44,7 @@ const CreatePatient = () => {
         name="lastName"
         value={lastName}
         onChange={onChange}
-        placeholder="Last Name"
+        placeholder="Nume de familie"
         required
         className={genericStyles.input}
       />
@@ -62,7 +62,7 @@ const CreatePatient = () => {
         name="phone"
         value={phone}
         onChange={onChange}
-        placeholder="Phone"
+        placeholder="telefon"
         required
         className={genericStyles.input}
       />
@@ -75,7 +75,7 @@ const CreatePatient = () => {
         required
         className={genericStyles.input}
       />
-      <button className={genericStyles.button}>Create Patient</button>
+      <button className={genericStyles.button}>Creeaza un pacient</button>
     </form>
     </div>
   );

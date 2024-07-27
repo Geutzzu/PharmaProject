@@ -17,7 +17,7 @@ const Footer = () => {
         </div>
         <div className={styles.footerSection}>
           <a href="/contact" className={styles.footerLink}>
-            Contact Us: +40 0753315996
+            Contactati-ne: +40 0753315965
           </a>
         </div>
       </div>

@@ -47,30 +47,30 @@ const PrescriptionSearch = () => {
 
   return (
     <div className={`${styles.container} ${genericStyles.card}`}>
-      <h1 className={`${genericStyles.header} text-center`}>Prescription Search</h1>
+      <h1 className={`${genericStyles.header} text-center`}>Cauta o reteta</h1>
       <input
         type="text"
         value={prescriptionID}
         onChange={handleInputChange}
-        placeholder="Enter Prescription ID"
+        placeholder="Introduceti ID-ul retetei"
         className={`${genericStyles.input} ${styles.input}`}
       />
-      <button onClick={handleSearch} className={`${genericStyles.button} ${styles.button}`}>Search</button>
+      <button onClick={handleSearch} className={`${genericStyles.button} ${styles.button}`}>Cauta</button>
       {error && <p className={genericStyles.error}>{error}</p>}
       {prescription && (
         <div className={`${genericStyles.details} ${styles.details} ${genericStyles.card}`}>
-          <h2 className={genericStyles.subheader}>Prescription Details</h2>
-          <p><strong>PrescriptionID:</strong> {prescription.prescriptionID}</p>
-          <p><strong>Medications:</strong></p>
+          <h2 className={genericStyles.subheader}>Detalii reteta</h2>
+          <p><strong>ID Reteta:</strong> {prescription.prescriptionID}</p>
+          <p><strong>Medicamente:</strong></p>
           {prescription.medications && prescription.medications.length > 0 ? (
             <table className={genericStyles.table}>
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Dosage</th>
-                  <th>Quantity</th>
-                  <th>Administration</th>
-                  <th>Concentration</th>
+                  <th>Nume</th>
+                  <th>Dozaj</th>
+                  <th>Cantitate</th>
+                  <th>Administrare</th>
+                  <th>Concentratie</th>
                 </tr>
               </thead>
               <tbody>
@@ -86,11 +86,11 @@ const PrescriptionSearch = () => {
               </tbody>
             </table>
           ) : (
-            <p>No medications found for this prescription.</p>
+            <p>Nici-un medicament gasit pentru reteta</p>
           )}
-          <p><strong>Claimed:</strong> {String(claim)}</p>
-          {prescription.notes && <p><strong>Notes:</strong> {prescription.notes}</p>}
-          <button onClick={handleClaim} className={`${genericStyles.button} ${styles.button}`}>Claim Prescription</button>
+          <p><strong>Revendicata:</strong> {claim ? 'Da' : 'Nu'}</p>
+          {prescription.notes && <p><strong>Observatii:</strong> {prescription.notes}</p>}
+          <button onClick={handleClaim} className={`${genericStyles.button} ${styles.button}`}>Revendica Reteta</button>
         </div>
       )}
     </div>

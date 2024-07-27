@@ -17,7 +17,6 @@ const ProtectedRoute = () => {
   }
 
   if (isAuthDoctor) {
-    console.log("Doctor");
     return (
       <div className={`${styles['w-full']} ${styles['p-6']}`}>
         <GetDoctorPatients />
@@ -25,7 +24,6 @@ const ProtectedRoute = () => {
     );
     
   } else if (isAuthPharmacy) {
-    console.log("Pharmacy");
     return (
       <div className={`${styles['w-full']} ${styles['p-6']}`}>
         <FindPrescription />
