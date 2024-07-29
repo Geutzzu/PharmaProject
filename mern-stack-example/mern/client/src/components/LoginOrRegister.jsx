@@ -48,7 +48,7 @@ const LoginOrRegister = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           <h2>Login</h2>
           <input
-            type="email"
+            /// type="email" - COMMENTED JUST FOR TESTING THE ADMIN PAGE
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

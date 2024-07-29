@@ -9,19 +9,22 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthDoctor, setIsAuthDoctor] = useState(false);
   const [isAuthPharmacy, setIsAuthPharmacy] = useState(false);
+  const [isAuthAdmin, setIsAuthAdmin] = useState(false);
   
   const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const [doctorResponse, pharmacyResponse] = await Promise.all([
+        const [doctorResponse, pharmacyResponse, adminResponse] = await Promise.all([
           axios.get('http://localhost:5050/auth/check/doctor', { withCredentials: true }),
           axios.get('http://localhost:5050/auth/check/pharmacy', { withCredentials: true }),
+          axios.get('http://localhost:5050/auth/check/admin', { withCredentials: true }),
         ]);
 
         setIsAuthDoctor(doctorResponse.data.loggedIn);
         setIsAuthPharmacy(pharmacyResponse.data.loggedIn);
+        setIsAuthAdmin(adminResponse.data.loggedIn);
       } catch (error) {
         console.error('Error checking auth status', error);
       } finally {
@@ -38,6 +41,7 @@ export const AuthProvider = ({ children }) => {
         alert("Logged out successfully!");
         setIsAuthDoctor(false);
         setIsAuthPharmacy(false);
+        setIsAuthAdmin(false);
         navigate('/');
     } catch (err) {
         console.error('Logout failed:', err);
@@ -45,7 +49,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthDoctor, isAuthPharmacy, isLoading, handleLogout }}>
+    <AuthContext.Provider value={{ isAuthDoctor, isAuthPharmacy, isAuthAdmin, isLoading, handleLogout }}>
         {children}
     </AuthContext.Provider>
   );

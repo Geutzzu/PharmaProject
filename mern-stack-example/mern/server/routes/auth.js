@@ -3,7 +3,8 @@ import { check, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import Doctor from '../db/models/doctor.js';
 import Pharmacy from '../db/models/pharmacy.js';
-import {  checkAuthPharmacy, checkAuthDoctor } from "../middleware/auth.js";
+import Admin from '../db/models/admin/admin.js';
+import {  checkAuthPharmacy, checkAuthDoctor, checkAuthAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -123,7 +124,8 @@ router.post(
     const { email, password } = req.body;
 
     try {
-      let user = await Pharmacy.findOne({ email }) || await Doctor.findOne({ email });
+      let user = await Pharmacy.findOne({ email }) || await Doctor.findOne({ email }) || await Admin.findOne({ email });
+      /// the admin will use a username instead of an email but at the level of code we will use the email field
       if (!user) {
         return res.status(400).json({ message: 'Invalid credentials' });
       }
@@ -151,6 +153,7 @@ router.get('/logout', (req, res) => {
 // Check Auth
 router.get('/check/pharmacy', checkAuthPharmacy);
 router.get('/check/doctor', checkAuthDoctor);
+router.get('/check/admin', checkAuthAdmin);
 
 // Check Cookie - for debugging purposes currently does not work
 router.get('/check-cookie', (req, res) => {

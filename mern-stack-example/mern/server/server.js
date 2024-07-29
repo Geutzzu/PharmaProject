@@ -22,10 +22,12 @@ import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.js';
 import doctorRoutes from './routes/doctor.js';
 import pharmacyRoutes from './routes/pharmacy.js';
+import adminRoutes from './routes/admin.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 
 dotenv.config();
-
 
 const PORT = process.env.PORT || 5050;
 
@@ -38,9 +40,15 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
+// Get the directory name of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); /// path for storing images
+
 app.use('/auth', authRoutes);
 app.use('/api', doctorRoutes);
 app.use('/api', pharmacyRoutes);
-
+app.use('/admin', adminRoutes);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

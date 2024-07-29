@@ -4,13 +4,14 @@ import { useAuth } from './AuthContext';
 import GetDoctorPatients from './GetDoctorPatients';
 import FindPrescription from './FindPrescription';
 import LoginOrRegister from './LoginOrRegister';
+import AdminPage from './admin/AdminPage';
 import styles from './ProtectedRoute.module.css';
 import { Link } from 'react-router-dom';
 
 const ProtectedRoute = () => {
 
 
-  const { isLoading, isAuthDoctor, isAuthPharmacy } = useAuth();
+  const { isLoading, isAuthDoctor, isAuthPharmacy, isAuthAdmin } = useAuth();
 
   if (isLoading) {
     return <div>Loading...</div>; // Or any other loading indicator
@@ -29,8 +30,14 @@ const ProtectedRoute = () => {
         <FindPrescription />
       </div>
     );
+  }
+    else if (isAuthAdmin) { //// to be removed !!!!!
+    return (
+      <div className={`${styles['w-full']} ${styles['p-6']}`}>
+        <AdminPage />
+      </div>
+    );
 
-    
   } else {
     return <LoginOrRegister />;
   }
