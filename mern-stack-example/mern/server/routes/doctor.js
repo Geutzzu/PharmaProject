@@ -4,6 +4,8 @@ import Prescription from '../db/models/prescription.js';
 import Doctor from '../db/models/doctor.js';
 import Patient from '../db/models/patient.js';
 import { protectDoctor, checkAuthDoctor } from "../middleware/auth.js";
+import getDoctorPatientsWithPagination from '../controllers/doctor.js';
+import getPatientPrescriptionsWithPagination from '../controllers/prescription.js';
 
 const router = express.Router();
 
@@ -158,7 +160,6 @@ router.post(
 );
 
 // Get all prescriptions for a doctor
-// Get all prescriptions for a doctor
 router.get('/doctor/:doctorId/prescriptions', protectDoctor, async (req, res) => {
   try {
     // Find prescriptions for the doctor
@@ -187,31 +188,7 @@ router.get('/doctor/:doctorId/prescriptions', protectDoctor, async (req, res) =>
   }
 });
 
-// Get all prescriptions for a patient (by patient ID)
-router.get('/patients/:patientId/prescriptions', protectDoctor, async (req, res) => {
-  try {
-    const prescriptions = await Prescription.find({ patientId: req.params.patientId }).populate('doctorId');
-    if (!prescriptions.length) {
-      return res.status(404).json({ message: 'No prescriptions found for this patient' });
-    }
 
-    // Check if any prescription has a pharmacyID and populate it
-    const populatedPrescriptions = await Promise.all(
-      prescriptions.map(async (prescription) => {
-        if (prescription.pharmacyId) {
-          return await Prescription.populate(prescription, { path: 'pharmacyId' });
-        }
-        return prescription;
-      })
-    );
-
-    res.json(populatedPrescriptions);
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Server error');
-  }
-});
 
 /*
 try {
@@ -257,7 +234,9 @@ router.get('/patients/:patientId', protectDoctor, async (req, res) => {
 });
 
 
+/// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // Get all patients for a doctor - we will use the id in the token to get the doctor id - doctor will be the placeholder in the path
+/* !!! IMPORTANT IF THE CODE BELOW FAILS WE WILL NEED THIS CODE !!!
 router.get('/doctor/patients', protectDoctor, async (req, res) => {
   try {
     console.log('Doctor ID:', req.user.id); 
@@ -274,6 +253,41 @@ router.get('/doctor/patients', protectDoctor, async (req, res) => {
   }
 });
 
+// Get all prescriptions for a patient (by patient ID)
+router.get('/patients/:patientId/prescriptions', protectDoctor, async (req, res) => {
+  try {
+    const prescriptions = await Prescription.find({ patientId: req.params.patientId }).populate('doctorId');
+    if (!prescriptions.length) {
+      return res.status(404).json({ message: 'No prescriptions found for this patient' });
+    }
+
+    // Check if any prescription has a pharmacyID and populate it
+    const populatedPrescriptions = await Promise.all(
+      prescriptions.map(async (prescription) => {
+        if (prescription.pharmacyId) {
+          return await Prescription.populate(prescription, { path: 'pharmacyId' });
+        }
+        return prescription;
+      })
+    );
+
+    res.json(populatedPrescriptions);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+*/
+
+
+
+
+/// for pagination
+router.get('/doctor/patients', protectDoctor, getDoctorPatientsWithPagination);
+router.get('/patients/:patientId/prescriptions', protectDoctor, getPatientPrescriptionsWithPagination);
+
 
 
 export default router;
+

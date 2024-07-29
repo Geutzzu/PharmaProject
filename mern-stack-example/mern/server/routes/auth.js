@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import Doctor from '../db/models/doctor.js';
 import Pharmacy from '../db/models/pharmacy.js';
 import Admin from '../db/models/admin/admin.js';
-import {  checkAuthPharmacy, checkAuthDoctor, checkAuthAdmin } from "../middleware/auth.js";
+import {  checkAuthPharmacy, checkAuthDoctor, checkAuthAdmin, loginLimiter } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -30,6 +30,7 @@ const sendTokenResponse = (user, res) => {
     sameSite: 'Strict',
   };
   console.log('Expires in: ', options.expires);
+  console.log('Role: ', user.role);
   res.cookie('token', token, options).json({ success: true, token });
 };
 
@@ -111,6 +112,7 @@ router.post(
 // Login
 router.post(
   '/login',
+  loginLimiter,
   [
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Password is required').exists(),
@@ -124,8 +126,39 @@ router.post(
     const { email, password } = req.body;
 
     try {
-      let user = await Pharmacy.findOne({ email }) || await Doctor.findOne({ email }) || await Admin.findOne({ email });
-      /// the admin will use a username instead of an email but at the level of code we will use the email field
+      let user = await Pharmacy.findOne({ email }) || await Doctor.findOne({ email });
+      if (!user) {
+        return res.status(400).json({ message: 'Invalid credentials' });
+      }
+
+      const isMatch = await user.comparePassword(password);
+      if (!isMatch) {
+        return res.status(400).json({ message: 'Invalid credentials' });
+      }
+
+      sendTokenResponse(user, res);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
+router.post(
+  '/login/admin',
+  [
+    check('username', 'Please include a valid username').exists().isLength({ min: 3 }),
+    check('password', 'Password is required').exists(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { username, password } = req.body;
+
+    try {
+      let user = await Admin.findOne({ username });
       if (!user) {
         return res.status(400).json({ message: 'Invalid credentials' });
       }

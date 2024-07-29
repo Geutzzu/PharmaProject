@@ -30,14 +30,6 @@ const ProtectedRoute = () => {
         <FindPrescription />
       </div>
     );
-  }
-    else if (isAuthAdmin) { //// to be removed !!!!!
-    return (
-      <div className={`${styles['w-full']} ${styles['p-6']}`}>
-        <AdminPage />
-      </div>
-    );
-
   } else {
     return <LoginOrRegister />;
   }

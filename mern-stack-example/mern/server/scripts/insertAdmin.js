@@ -16,7 +16,8 @@ const insertAdmin = async () => {
   try {
     const newAdmin = new Admin({
       username: '',
-      password: ''
+      password: '',
+      role: 'admin'
     });
 
     await newAdmin.save();

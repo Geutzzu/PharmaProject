@@ -1,53 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import styles from '../../Tests/Components.module.css';
 
 const AdminPage = () => {
   const [unclaimedDoctors, setUnclaimedDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUnclaimedDoctors = async () => {
       try {
-        const response = await axios.get('http://localhost:5050/unclaimed-doctors');
+        const response = await axios.get('http://localhost:5050/admin/unclaimed-doctors', { withCredentials: true });
         setUnclaimedDoctors(response.data);
         setLoading(false);
       } catch (err) {
-        setError(err.message);
         setLoading(false);
+        console.error(err);
       }
     };
 
     fetchUnclaimedDoctors();
   }, []);
 
-  if (loading) return <div >Loading...</div>;
-  if (error) return <div >Error: {error}</div>;
+  const handleClaimDoctor = async (id) => {
+    try {
+      await axios.post(`http://localhost:5050/admin/claim-doctor/${id}`, {}, { withCredentials: true });
+      setUnclaimedDoctors((prevDoctors) => prevDoctors.filter((doctor) => doctor._id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleRejectDoctor = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5050/admin/reject-doctor/${id}`, { withCredentials: true });
+      setUnclaimedDoctors((prevDoctors) => prevDoctors.filter((doctor) => doctor._id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (loading) return <div className={styles.loading}>Loading...</div>;
 
   return (
-    <div >
-      <h1 >Unclaimed Doctor Requests</h1>
-      <table >
+    <div className={styles.container}>
+      <h1 className={styles.header}>Cereri de inregistrare pentru doctori</h1>
+      <table className={styles.table}>
         <thead>
           <tr>
-            <th>Username</th>
-            <th>Role</th>
+            <th>Nume de utilizator</th>
             <th>Email</th>
-            <th>Phone</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Telefon</th>
+            <th>Prenume</th>
+            <th>Nume</th>
             <th>Cod Parafa</th>
-            <th>Clinic Name</th>
-            <th>Clinic Address</th>
-            <th>Clinic Phone</th>
-            <th>Identity Proof</th>
+            <th>Nume Clinica</th>
+            <th>Adresa Clinica</th>
+            <th>Telefon Clinica</th>
+            <th>Buletin</th>
+            <th>Actiuni</th>
           </tr>
         </thead>
         <tbody>
           {unclaimedDoctors.map((doctor) => (
             <tr key={doctor._id}>
               <td>{doctor.username}</td>
-              <td>{doctor.role}</td>
               <td>{doctor.email}</td>
               <td>{doctor.phone}</td>
               <td>{doctor.firstname}</td>
@@ -58,8 +74,12 @@ const AdminPage = () => {
               <td>{doctor.clinicPhone}</td>
               <td>
                 <a href={`http://localhost:5050/${doctor.identityProof}`} target="_blank" rel="noopener noreferrer">
-                  View Proof
+                  Vezi poza
                 </a>
+              </td>
+              <td>
+                <button className={styles.button} onClick={() => handleClaimDoctor(doctor._id)}>Valideaza</button>
+                <button className={`${styles.button} ${styles.rejectButton}`} onClick={() => handleRejectDoctor(doctor._id)}>Respinge</button>
               </td>
             </tr>
           ))}

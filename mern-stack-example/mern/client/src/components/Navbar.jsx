@@ -57,9 +57,19 @@ const Navbar = () => {
     </>
   );
 
-  const { isAuthDoctor, isAuthPharmacy, handleLogout } = useAuth();
+  const renderAdminLinks = () => (
+    <>
+      <div className={styles.navbarItem}>
+      <span className={styles.navbarLink} onClick={handleLogout}>
+            Logout
+      </span>
+      </div>
+    </>
+  );
 
-  if (!isAuthDoctor && !isAuthPharmacy) {
+  const { isAuthDoctor, isAuthPharmacy, isAuthAdmin, handleLogout } = useAuth();
+
+  if (!isAuthDoctor && !isAuthPharmacy && !isAuthAdmin) {
     return null;
   }
 
@@ -72,6 +82,7 @@ const Navbar = () => {
       <div className={styles.navbarMenu}>
         {isAuthDoctor && renderDoctorLinks()}
         {isAuthPharmacy && renderPharmacyLinks()}
+        {isAuthAdmin && renderAdminLinks()}
       </div>
     </nav>
   );

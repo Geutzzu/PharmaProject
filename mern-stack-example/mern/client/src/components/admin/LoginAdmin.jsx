@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import styles from './LoginOrRegister.module.css'; // Import the combined CSS
-import genericStyles from '../Tests/Components.module.css'; // Import the generic styles
+import styles from '../LoginOrRegister.module.css'; // Import the combined CSS
+import genericStyles from '../../Tests/Components.module.css'; // Import the generic styles
 
 
-const LoginOrRegister = () => {
-  const [email, setEmail] = useState('');
+const LoginAdmin = () => {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,7 +32,7 @@ const LoginOrRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5050/auth/login', { email, password }, { withCredentials: true });
+      const res = await axios.post('http://localhost:5050/auth/login/admin', { username, password }, { withCredentials: true });
       // Redirect or update authentication state
       setIsLoggedIn(true);
       alert("Login successful!");
@@ -44,14 +44,14 @@ const LoginOrRegister = () => {
   return (
     <div className={`${styles.container1} ${styles.loginBackground}`}>
       <div className={`${styles.container} ${genericStyles.card} `}>
-        <h1 className={`${styles.whiteText} ${styles.title} text-3xl font-bold text-center`}>Bine ati venit la Pharma!</h1>
+        <h1 className={`${styles.whiteText} ${styles.title} text-3xl font-bold text-center`}>Pagina admin</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
           <h2>Login</h2>
           <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            placeholder="Nume de utilizator"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
           <input
@@ -64,13 +64,9 @@ const LoginOrRegister = () => {
           <button type="submit">Login</button>
           {error && <p>{error}</p>}
         </form>
-        <div className={styles.buttonContainer}>
-          <Link to="/auth/register/doctor" className="inline-block ml-4 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 transition duration-150 ease-in-out">Inregistreaza un cont de doctor</Link>
-          <Link to="/auth/register/pharmacy" className="inline-block ml-4 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 transition duration-150 ease-in-out">Inregistreaza un cont de farmacie</Link>
-        </div>
       </div>
     </div>
   );
 };
 
-export default LoginOrRegister;
+export default LoginAdmin;

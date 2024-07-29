@@ -10,12 +10,6 @@ const unclaimedDoctorSchema = new mongoose.Schema({
     trim: true,
     minlength: [3, 'Username must be at least 3 characters long']
   },
-  role: {
-    type: String,
-    required: [true, 'Role is required'],
-    trim: true,
-    enum: ['doctor', 'pharmacy']
-  },
   email: {
     type: String,
     required: [true, 'Email is required'],
@@ -66,10 +60,6 @@ const unclaimedDoctorSchema = new mongoose.Schema({
     trim: true,
     validate: [validator.isMobilePhone, 'Invalid clinic phone number']
   },
-  patients: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Patient'
-  }],
   identityProof: {
     type: String,
     required: [true, 'Identity proof is required'],

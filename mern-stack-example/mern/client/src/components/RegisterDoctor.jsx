@@ -2,35 +2,49 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './Forms.module.css';
 
-const DoctorRegistration = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [codparafa, setCodparafa] = useState('');
-  const [clinicName, setClinicName] = useState('');
-  const [clinicAddress, setClinicAddress] = useState('');
-  const [clinicPhone, setClinicPhone] = useState('');
-  const [phone, setPhone] = useState('');
+const UnclaimedDoctorRegistration = () => {
+  const [formData, setFormData] = useState({
+    username: '',
+    role: 'doctor', // Set role directly
+    email: '',
+    phone: '',
+    password: '',
+    firstname: '',
+    lastname: '',
+    codparafa: '',
+    clinicName: '',
+    clinicAddress: '',
+    clinicPhone: '',
+    identityProof: null
+  });
+
   const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, identityProof: e.target.files[0] });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const data = new FormData();
+    for (let key in formData) {
+      data.append(key, formData[key]);
+    }
+
     try {
-      const res = await axios.post('http://localhost:5050/auth/register/doctor', {
-        username,
-        email,
-        password,
-        firstname,
-        lastname,
-        codparafa,
-        clinicName,
-        clinicAddress,
-        clinicPhone,
-        phone
-      }, { withCredentials: true });
-      alert("Registration successful!");
+      await axios.post('http://localhost:5050/admin/unclaimed-doctors', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        withCredentials: true
+      });
+      alert('Registration request successful!');
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred');
     }
@@ -38,81 +52,97 @@ const DoctorRegistration = () => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <h2>Inregistreaza un doctor</h2>
+      <h2>Cerere pentru cont de doctor</h2>
       <input
         type="text"
-        placeholder="Numele Utilizatorului"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Prenume"
-        value={firstname}
-        onChange={(e) => setFirstname(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Nume de Familie"
-        value={lastname}
-        onChange={(e) => setLastname(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Cod Parafa"
-        value={codparafa}
-        onChange={(e) => setCodparafa(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Numele Clinicii"
-        value={clinicName}
-        onChange={(e) => setClinicName(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Adresa Clinicii"
-        value={clinicAddress}
-        onChange={(e) => setClinicAddress(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Telefonul Clinicii"
-        value={clinicPhone}
-        onChange={(e) => setClinicPhone(e.target.value)}
+        name="username"
+        placeholder="Nume de utilizator"
+        value={formData.username}
+        onChange={handleChange}
         required
       />
       <input
         type="email"
+        name="email"
         placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Parola"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={formData.email}
+        onChange={handleChange}
         required
       />
       <input
         type="text"
+        name="phone"
         placeholder="Telefon"
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)}
+        value={formData.phone}
+        onChange={handleChange}
         required
       />
-      <button type="submit">Inregistreaza-te</button>
+      <input
+        type="password"
+        name="password"
+        placeholder="Parola"
+        value={formData.password}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="text"
+        name="firstname"
+        placeholder="Prenume"
+        value={formData.firstname}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="text"
+        name="lastname"
+        placeholder="Nume"
+        value={formData.lastname}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="text"
+        name="codparafa"
+        placeholder="Cod Parafa"
+        value={formData.codparafa}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="text"
+        name="clinicName"
+        placeholder="Numele Clinicii"
+        value={formData.clinicName}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="text"
+        name="clinicAddress"
+        placeholder="Adresa Clinicii"
+        value={formData.clinicAddress}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="text"
+        name="clinicPhone"
+        placeholder="Telefon Clinicii"
+        value={formData.clinicPhone}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="file"
+        name="identityProof"
+        onChange={handleFileChange}
+        required
+      />
+      <button type="submit">Trimite cererea</button>
       {error && <p>{error}</p>}
     </form>
   );
 };
 
-export default DoctorRegistration;
+export default UnclaimedDoctorRegistration;

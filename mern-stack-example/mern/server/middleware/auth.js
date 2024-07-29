@@ -2,6 +2,18 @@ import jwt from 'jsonwebtoken';
 import Doctor from '../db/models/doctor.js';
 import Pharmacy from '../db/models/pharmacy.js';
 import Admin from '../db/models/admin/admin.js';
+import rateLimit from 'express-rate-limit';
+
+
+// Rate limiting middleware for login attempts
+export const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 5 requests per `window` (here, per 15 minutes)
+  message: 'Too many login attempts from this IP, please try again after 15 minutes',
+  handler: (req, res, /*next*/) => {
+    res.status(429).json({ message: 'Too many login attempts from this IP, please try again after 15 minutes' });
+  }
+});
 
 // Function to protect admin routes
 export const protectAdmin = async (req, res, next) => {

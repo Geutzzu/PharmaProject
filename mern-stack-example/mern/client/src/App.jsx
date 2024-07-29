@@ -6,6 +6,7 @@ import CreatePatient from './components/CreatePatient';
 import GetDoctorPatients from './components/GetDoctorPatients';
 import CreatePrescription from './components/CreatePrescription';
 import PatientDetails from './components/PatientDetails';
+import ProtectedAdmin from './components/admin/ProtectedAdmin';
 import Navbar from './components/Navbar';
 import './App.css';
 import Footer from './components/Footer';
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/patients/:patientId" element={<PatientDetails />} />
           <Route exact path="/create-prescription/:patientId" element={<CreatePrescription />} />
           <Route exact path="/create-patient" element={<CreatePatient />} />
+          <Route exact path="/admin" element={<ProtectedAdmin />} />
         </Routes>
         <Footer />
     </AuthProvider>

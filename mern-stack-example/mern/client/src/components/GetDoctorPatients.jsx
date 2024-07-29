@@ -1,16 +1,24 @@
+// GetDoctorPatients.js
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './GetDoctorPatients.module.css'; 
 import genericStyles from '../Tests/Components.module.css';
+import Pagination from '../components/Pagination'; // Import the Pagination component
 
 const GetDoctorPatients = () => {
-  const [patients, setPatients] = useState([]); // All patients of the logged-in doctor
+  const [patients, setPatients] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const fetchPatients = async () => {
+  const fetchPatients = async (page = 1) => {
     try {
-      const res = await axios.get('http://localhost:5050/api/doctor/patients', { withCredentials: true }); // Retrieve all patients of the logged-in doctor
-      setPatients(res.data);
+      const res = await axios.get(`http://localhost:5050/api/doctor/patients?page=${page}`, { withCredentials: true });
+      setPatients(res.data.patients);
+      setTotalPages(res.data.totalPages);
+      setCurrentPage(res.data.page);
+      console.log(res.data);
     } catch (err) {
       console.error(err.response.data);
       alert('Error retrieving patients!');
@@ -20,6 +28,10 @@ const GetDoctorPatients = () => {
   useEffect(() => {
     fetchPatients();
   }, []);
+
+  const handlePageChange = (page) => {
+    fetchPatients(page);
+  };
 
   return (
     <div className={genericStyles.container}>
@@ -46,6 +58,7 @@ const GetDoctorPatients = () => {
               ))}
             </tbody>
           </table>
+          <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
         </div>
       )}
       {patients.length === 0 && (

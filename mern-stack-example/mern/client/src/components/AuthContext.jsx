@@ -25,6 +25,9 @@ export const AuthProvider = ({ children }) => {
         setIsAuthDoctor(doctorResponse.data.loggedIn);
         setIsAuthPharmacy(pharmacyResponse.data.loggedIn);
         setIsAuthAdmin(adminResponse.data.loggedIn);
+        console.log(doctorResponse.data.loggedIn);
+        console.log(pharmacyResponse.data.loggedIn);
+        console.log(adminResponse.data.loggedIn);
       } catch (error) {
         console.error('Error checking auth status', error);
       } finally {
