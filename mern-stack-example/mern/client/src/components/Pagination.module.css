@@ -1,27 +1,27 @@
-/* Pagination.module.css */
-
 .pagination {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-  }
-  
-  .pagination button {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    color: #333;
-    padding: 10px 15px;
-    margin: 0 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .pagination button:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .pagination .active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination span {
+  margin-right: 10px;
+}
+
+.pagination button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  margin: 0 5px;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination .arrow {
+  color: #000;
+}

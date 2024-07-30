@@ -1,7 +1,7 @@
 import Doctor from '../db/models/doctor.js';
 
 const getDoctorPatientsWithPagination = async (req, res) => {
-  const { page = 1, pageSize = 10 } = req.query;
+  const { page = 1, pageSize = 30 } = req.query;
 
   const limit = parseInt(pageSize);
   const skip = (page - 1) * limit;

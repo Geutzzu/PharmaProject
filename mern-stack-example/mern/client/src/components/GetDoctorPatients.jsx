@@ -1,5 +1,3 @@
-// GetDoctorPatients.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -11,6 +9,8 @@ const GetDoctorPatients = () => {
   const [patients, setPatients] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [patientsPerPage, setPatientsPerPage] = useState(0); 
+  const [totalPatients, setTotalPatients] = useState(0); 
 
   const fetchPatients = async (page = 1) => {
     try {
@@ -18,6 +18,8 @@ const GetDoctorPatients = () => {
       setPatients(res.data.patients);
       setTotalPages(res.data.totalPages);
       setCurrentPage(res.data.page);
+      setPatientsPerPage(res.data.patients.length); 
+      setTotalPatients(res.data.totalPatients);
       console.log(res.data);
     } catch (err) {
       console.error(err.response.data);
@@ -58,7 +60,7 @@ const GetDoctorPatients = () => {
               ))}
             </tbody>
           </table>
-          <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
+          <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} totalItems={totalPatients} itemsPerPage={patientsPerPage}  />
         </div>
       )}
       {patients.length === 0 && (

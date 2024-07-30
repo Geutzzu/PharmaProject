@@ -2,7 +2,7 @@ import Patient from '../db/models/patient.js';
 import Prescription from '../db/models/prescription.js';
 
 const getPatientPrescriptionsWithPagination = async (req, res) => {
-  const { page = 1, pageSize = 10 } = req.query;
+  const { page = 1, pageSize = 30 } = req.query;
   const patientId = req.params.patientId;
 
   const limit = parseInt(pageSize, 10);

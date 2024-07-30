@@ -39,6 +39,8 @@ const PatientDetails = () => {
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalNumberOfPrescriptions, setTotalNumberOfPrescriptions] = useState(0);
+  const [totalItemsPerPage, setTotalItemsPerPage] = useState(0);
 
   const fetchPatientData = async (page = 1) => {
     try {
@@ -48,7 +50,8 @@ const PatientDetails = () => {
 
       const prescriptionsRes = await axios.get(`http://localhost:5050/api/patients/${patientId}/prescriptions?page=${page}`, { withCredentials: true });
       console.log(prescriptionsRes.data);
-      const { prescriptions: prescriptionsData, totalPages, page: currentPage } = prescriptionsRes.data;
+      const { prescriptions: prescriptionsData, totalPages, page: currentPage, totalPrescriptions } = prescriptionsRes.data;
+
 
       const formattedPrescriptions = prescriptionsData.map(prescription => {
         const createdAtDate = new Date(prescription.createdAt);
@@ -67,6 +70,8 @@ const PatientDetails = () => {
       setPrescriptions(formattedPrescriptions);
       setTotalPages(totalPages);
       setCurrentPage(currentPage);
+      setTotalNumberOfPrescriptions(totalPrescriptions);
+      setTotalItemsPerPage(prescriptionsData.length);
     } catch (err) {
       console.error(err);
       alert('Error retrieving patient details or prescriptions!');
@@ -131,7 +136,7 @@ const PatientDetails = () => {
               <tbody>
                 {prescriptions.map((prescription, index) => (
                   <tr key={prescription._id}>
-                    <td>{(currentPage - 1) * 10 + index + 1}</td>
+                    <td>{totalNumberOfPrescriptions - (currentPage - 1) * totalItemsPerPage - index - 1}</td>
                     <td>{prescription.date}</td>
                     <td>{prescription.notes}</td>
                     <td>
@@ -166,7 +171,7 @@ const PatientDetails = () => {
                 ))}
               </tbody>
             </table>
-            <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
+            <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} totalItems={totalNumberOfPrescriptions} itemsPerPage={totalItemsPerPage} />
           </div>
         ) : (
           <p>Nu am gasit retete pentru pacient.</p>
