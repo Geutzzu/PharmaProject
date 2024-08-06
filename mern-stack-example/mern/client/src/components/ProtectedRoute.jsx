@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 const ProtectedRoute = () => {
 
 
-  const { isLoading, isAuthDoctor, isAuthPharmacy, isAuthAdmin } = useAuth();
+  const { isLoading, isAuthDoctor, isAuthPharmacy } = useAuth();
 
   if (isLoading) {
     return <div>Loading...</div>; // Or any other loading indicator
@@ -19,16 +19,12 @@ const ProtectedRoute = () => {
 
   if (isAuthDoctor) {
     return (
-      <div className={`${styles['w-full']} ${styles['p-6']}`}>
         <GetDoctorPatients />
-      </div>
     );
     
   } else if (isAuthPharmacy) {
     return (
-      <div className={`${styles['w-full']} ${styles['p-6']}`}>
         <FindPrescription />
-      </div>
     );
   } else {
     return <LoginOrRegister />;

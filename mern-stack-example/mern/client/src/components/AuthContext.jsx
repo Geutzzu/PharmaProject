@@ -25,6 +25,12 @@ export const AuthProvider = ({ children }) => {
         setIsAuthDoctor(doctorResponse.data.loggedIn);
         setIsAuthPharmacy(pharmacyResponse.data.loggedIn);
         setIsAuthAdmin(adminResponse.data.loggedIn);
+
+        /// if not logged in, redirect to login page
+        if (!doctorResponse.data.loggedIn && !pharmacyResponse.data.loggedIn && !adminResponse.data.loggedIn) {
+          navigate('/');
+        }
+
         console.log(doctorResponse.data.loggedIn);
         console.log(pharmacyResponse.data.loggedIn);
         console.log(adminResponse.data.loggedIn);
