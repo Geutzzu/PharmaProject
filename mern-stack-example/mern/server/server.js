@@ -17,7 +17,7 @@ const app = express();
 
 // Define allowed origins
 const allowedOrigins = [
-  'http://localhost:5173', /// for development should be removed in production
+  'http://localhost:5173', // For development; remove in production
   'https://pharma-puce.vercel.app',
   'pharma-puce.vercel.app',
 ];
@@ -34,9 +34,14 @@ const corsOptions = {
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   optionsSuccessStatus: 204,
   credentials: true,
+  allowedHeaders: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
 };
 
 app.use(cors(corsOptions));
+
+// Preflight request handling
+app.options('*', cors(corsOptions));
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -44,7 +49,7 @@ app.use(cookieParser());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); /// path for storing images
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Path for storing images
 
 app.use('/auth', authRoutes);
 app.use('/api', doctorRoutes);
