@@ -18,7 +18,7 @@ const app = express();
 // Define allowed origins
 const allowedOrigins = [
   'http://localhost:5173', /// for development should be removed in production
-  'https://pharma-puce.vercel.app/',
+  'https://pharma-puce.vercel.app',
   'pharma-puce.vercel.app',
 ];
 
