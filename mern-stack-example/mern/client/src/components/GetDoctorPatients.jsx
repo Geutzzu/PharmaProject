@@ -3,7 +3,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './GetDoctorPatients.module.css'; 
 import genericStyles from '../Tests/Components.module.css';
-import Pagination from '../components/Pagination'; // Import the Pagination component
+import Pagination from '../components/Pagination'; 
+import { useAuth } from './AuthContext';
 
 const GetDoctorPatients = () => {
   const [patients, setPatients] = useState([]);
@@ -12,15 +13,16 @@ const GetDoctorPatients = () => {
   const [patientsPerPage, setPatientsPerPage] = useState(0); 
   const [totalPatients, setTotalPatients] = useState(0); 
 
+
   const fetchPatients = async (page = 1) => {
     try {
-      const res = await axios.get(`http://localhost:5050/api/doctor/patients?page=${page}`, { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/doctor/patients?page=${page}`, { withCredentials: true });
       setPatients(res.data.patients);
       setTotalPages(res.data.totalPages);
       setCurrentPage(res.data.page);
       setPatientsPerPage(res.data.patients.length); 
       setTotalPatients(res.data.totalPatients);
-      console.log(res.data);
+
     } catch (err) {
       console.error(err.response.data);
       alert('Error retrieving patients!');
@@ -34,6 +36,9 @@ const GetDoctorPatients = () => {
   const handlePageChange = (page) => {
     fetchPatients(page);
   };
+
+
+
 
   return (
     <div className={genericStyles.container}>

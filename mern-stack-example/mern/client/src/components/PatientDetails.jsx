@@ -45,13 +45,14 @@ const PatientDetails = () => {
   const fetchPatientData = async (page = 1) => {
     try {
       setLoading(true);
-      const patientRes = await axios.get(`http://localhost:5050/api/patients/${patientId}`, { withCredentials: true });
+      const patientRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/patients/${patientId}`, { withCredentials: true });
       setPatient(patientRes.data);
 
-      const prescriptionsRes = await axios.get(`http://localhost:5050/api/patients/${patientId}/prescriptions?page=${page}`, { withCredentials: true });
+      const prescriptionsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/patients/${patientId}/prescriptions?page=${page}`, { withCredentials: true });
       console.log(prescriptionsRes.data);
       const { prescriptions: prescriptionsData, totalPages, page: currentPage, totalPrescriptions } = prescriptionsRes.data;
-
+      const url = import.meta.env.VITE_API_URL;
+      console.log("URL: ", url);
 
       const formattedPrescriptions = prescriptionsData.map(prescription => {
         const createdAtDate = new Date(prescription.createdAt);

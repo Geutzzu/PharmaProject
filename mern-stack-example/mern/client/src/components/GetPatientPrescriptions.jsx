@@ -8,7 +8,7 @@ const GetPatientPrescriptions = () => {
   const onSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.get(`http://localhost:5050/patient/${patientId}/prescriptions`); // Adjust the URL based on your backend setup
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/patient/${patientId}/prescriptions`); // Adjust the URL based on your backend setup
       setPrescriptions(res.data);
     } catch (err) {
       console.error(err.response.data);

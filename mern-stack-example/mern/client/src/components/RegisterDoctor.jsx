@@ -38,7 +38,7 @@ const UnclaimedDoctorRegistration = () => {
     }
 
     try {
-      await axios.post('http://localhost:5050/admin/unclaimed-doctors', data, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/admin/unclaimed-doctors`, data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },

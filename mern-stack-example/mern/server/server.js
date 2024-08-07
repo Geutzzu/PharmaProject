@@ -1,20 +1,3 @@
-/*import express from "express";
-import cors from "cors";
-import records from "./routes/record.js";
-
-const PORT = process.env.PORT || 5050;
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-app.use("/record", records);
-
-// start the Express server
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
-*/ /// codu original 
-
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -26,17 +9,32 @@ import adminRoutes from './routes/admin.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-
 dotenv.config();
 
 const PORT = process.env.PORT || 5050;
 
 const app = express();
 
-app.use(cors({
-  origin: 'http://localhost:5173', // Change this to your client's origin
+// Define allowed origins
+const allowedOrigins = [
+  'http://localhost:5173', /// for development should be removed in production
+  'https://pharma-puce.vercel.app/',
+  'pharma-puce.vercel.app',
+];
+
+// Custom CORS middleware
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
-}));
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -51,4 +49,12 @@ app.use('/api', doctorRoutes);
 app.use('/api', pharmacyRoutes);
 app.use('/admin', adminRoutes);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).send('Server is healthy');
+});
+
+// Start the Express server
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});

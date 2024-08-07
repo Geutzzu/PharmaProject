@@ -11,7 +11,7 @@ const PrescriptionSearch = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`http://localhost:5050/api/pharmacy/prescription/${prescriptionID}`, { withCredentials: true });
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/pharmacy/prescription/${prescriptionID}`, { withCredentials: true });
       if (response.data.length > 0) {
         setPrescription(response.data[0]);
         if (response.data[0].pharmacyId) {
@@ -30,7 +30,7 @@ const PrescriptionSearch = () => {
 
   const handleClaim = async () => {
     try {
-      const response = await axios.patch(`http://localhost:5050/api/pharmacy/prescription/${prescription._id}`, [], { withCredentials: true });
+      const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/pharmacy/prescription/${prescription._id}`, [], { withCredentials: true });
       if (response) {
         setClaim(true);
       } else {

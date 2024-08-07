@@ -18,7 +18,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try { /// !!!!
-      const res = await axios.post('http://localhost:5050/auth/login', { email, password }, { withCredentials: true });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, { email, password }, { withCredentials: true });
       // Redirect or update authentication state
       navigate('/');
       alert("Login successful!");
@@ -30,7 +30,7 @@ const Login = () => {
   /*
   const handleLogout = async () => {
     try {
-      await axios.get('http://localhost:5050/auth/logout', { withCredentials: true });
+      await axios.get('`${import.meta.env.VITE_API_URL}/auth/logout', { withCredentials: true });
       alert("Logged out successfully!");
       // redirect or update the state to reflect that the user is logged out
       Navigate('/');

@@ -9,7 +9,7 @@ const AdminPage = () => {
   useEffect(() => {
     const fetchUnclaimedDoctors = async () => {
       try {
-        const response = await axios.get('http://localhost:5050/admin/unclaimed-doctors', { withCredentials: true });
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/admin/unclaimed-doctors`, { withCredentials: true });
         setUnclaimedDoctors(response.data);
         setLoading(false);
       } catch (err) {
@@ -23,7 +23,7 @@ const AdminPage = () => {
 
   const handleClaimDoctor = async (id) => {
     try {
-      await axios.post(`http://localhost:5050/admin/claim-doctor/${id}`, {}, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_API_URL}/admin/claim-doctor/${id}`, {}, { withCredentials: true });
       setUnclaimedDoctors((prevDoctors) => prevDoctors.filter((doctor) => doctor._id !== id));
     } catch (err) {
       console.error(err);
@@ -32,7 +32,7 @@ const AdminPage = () => {
 
   const handleRejectDoctor = async (id) => {
     try {
-      await axios.delete(`http://localhost:5050/admin/reject-doctor/${id}`, { withCredentials: true });
+      await axios.delete(`${import.meta.env.VITE_API_URL}/admin/reject-doctor/${id}`, { withCredentials: true });
       setUnclaimedDoctors((prevDoctors) => prevDoctors.filter((doctor) => doctor._id !== id));
     } catch (err) {
       console.error(err);
@@ -73,7 +73,7 @@ const AdminPage = () => {
               <td>{doctor.clinicAddress}</td>
               <td>{doctor.clinicPhone}</td>
               <td>
-                <a href={`http://localhost:5050/${doctor.identityProof}`} target="_blank" rel="noopener noreferrer">
+                <a href={`${import.meta.env.VITE_API_URL}/${doctor.identityProof}`} target="_blank" rel="noopener noreferrer">
                   Vezi poza
                 </a>
               </td>

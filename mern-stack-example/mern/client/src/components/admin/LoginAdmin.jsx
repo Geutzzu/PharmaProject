@@ -32,7 +32,7 @@ const LoginAdmin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5050/auth/login/admin', { username, password }, { withCredentials: true });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login/admin`, { username, password }, { withCredentials: true });
       // Redirect or update authentication state
       setIsLoggedIn(true);
       alert("Login successful!");

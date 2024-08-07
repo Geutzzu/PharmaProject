@@ -32,7 +32,7 @@ const CreatePrescription = () => {
   const onSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:5050/api/prescriptions/${patientId}`, formData, { withCredentials: true }); 
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/prescriptions/${patientId}`, formData, { withCredentials: true }); 
       console.log(res.data);
       alert('Prescription created successfully!');
     } catch (err) {
