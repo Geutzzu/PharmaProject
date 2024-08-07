@@ -137,6 +137,9 @@ router.post(
       }
 
       sendTokenResponse(user, res);
+
+      console.log('Headers and response: ', res.headers, res);
+
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error');

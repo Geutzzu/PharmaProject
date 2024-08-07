@@ -16,7 +16,7 @@ function App() {
     <AuthProvider>
         <Navbar />
         <Routes>
-          <Route exact path="/" element={<ProtectedRoute  />} /> {/* Or your default component */}
+          <Route exact path="/" element={<ProtectedRoute  />} />
           <Route exact path="/get-doctor-patients" element={<GetDoctorPatients />} />
           <Route exact path="/patients/:patientId" element={<PatientDetails />} />
           <Route exact path="/create-prescription/:patientId" element={<CreatePrescription />} />

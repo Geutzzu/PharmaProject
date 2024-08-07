@@ -114,11 +114,19 @@ const PatientDetails = () => {
         <div className={styles.refreshContainer}>
           <Link to={`/create-prescription/${patientId}`} className={` ${genericStyles.button} `}>Creeaza o reteta</Link>
           <button
-            className={`${styles.refreshButton} ${loading ? 'spinning' : ''}`}
-            onClick={() => fetchPatientData(currentPage)}
+            className={`${styles.refreshButton}`}
+            onClick={(event) => {
+              event.target.classList.add(styles.spinning);
+              console.log(event.target.classList);
+              fetchPatientData(currentPage) 
+              setTimeout(() => {
+                event.target.classList.remove(styles.spinning);
+              }, 200);
+              }
+            }
             disabled={loading}
           >
-            <RefreshIcon />
+            <RefreshIcon/>
           </button>
         </div>
         {prescriptions.length > 0 ? (
@@ -156,7 +164,7 @@ const PatientDetails = () => {
                         {prescription.medications.length > 1 && (
                           <button
                             className={styles.expandButton}
-                            onClick={() => toggleMedications(prescription._id)}
+                            onClick={() =>  toggleMedications(prescription._id)}
                           >
                             {downArrow}
                           </button>
