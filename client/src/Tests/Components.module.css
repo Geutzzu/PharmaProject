@@ -1,11 +1,10 @@
 
-/* Components.module.css */
-/* Variables */
+/* TO BE ABSOKUTELLY REMOVED */
 :root {
   /* Primary Blue Shades */
-  --primary-blue: #007bff;
+  --primary-blue: #4a5de4;
   --primary-blue-light: #66b2ff;
-  --primary-blue-dark: #0056b3;
+  --primary-blue-dark: #1a2159;
 
   /* Complementary Colors */
   --secondary-gray: #6c757d;

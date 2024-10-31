@@ -43,6 +43,9 @@ const CreatePrescription = () => {
 
   return (
     <div className={genericStyles.container}>
+      <h2 className={genericStyles.header}>Creeaza o reteta</h2>
+
+
     <form onSubmit={onSubmit} className={genericStyles.form}>
       {medications.map((medication, index) => (
         <div key={index} className={`${genericStyles.card} ${genericStyles.formGroup}`}>

@@ -79,7 +79,7 @@ const AdminPage = () => {
               </td>
               <td>
                 <button className={styles.button} onClick={() => handleClaimDoctor(doctor._id)}>Valideaza</button>
-                <button className={`${styles.button} ${styles.rejectButton}`} onClick={() => handleRejectDoctor(doctor._id)}>Respinge</button>
+                <button className={`${styles.button} ${styles.rejectButton} mt-4`} onClick={() => handleRejectDoctor(doctor._id)}>Respinge</button>
               </td>
             </tr>
           ))}

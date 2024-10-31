@@ -10,7 +10,9 @@ export const AuthProvider = ({ children }) => {
   const [isAuthDoctor, setIsAuthDoctor] = useState(false);
   const [isAuthPharmacy, setIsAuthPharmacy] = useState(false);
   const [isAuthAdmin, setIsAuthAdmin] = useState(false);
-  
+
+  const isNavbarVisible = isAuthDoctor || isAuthPharmacy || isAuthAdmin;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -58,7 +60,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthDoctor, isAuthPharmacy, isAuthAdmin, isLoading, handleLogout }}>
+    <AuthContext.Provider value={{ isAuthDoctor, isAuthPharmacy, isAuthAdmin, isNavbarVisible , isLoading, handleLogout }}>
         {children}
     </AuthContext.Provider>
   );

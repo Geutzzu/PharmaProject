@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import styles from './GetDoctorPatients.module.css'; 
-import genericStyles from '../Tests/Components.module.css';
-import Pagination from '../components/Pagination'; 
-import { useAuth } from './AuthContext';
+import styles from './GetDoctorPatients.module.css';
+import genericStyles from '../../Tests/Components.module.css';
+import Pagination from '../Pagination.jsx';
+import { useAuth } from '../AuthContext.jsx';
 
 const GetDoctorPatients = () => {
   const [patients, setPatients] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [patientsPerPage, setPatientsPerPage] = useState(0); 
-  const [totalPatients, setTotalPatients] = useState(0); 
+  const [patientsPerPage, setPatientsPerPage] = useState(0);
+  const [totalPatients, setTotalPatients] = useState(0);
 
 
   const fetchPatients = async (page = 1) => {
@@ -20,7 +20,7 @@ const GetDoctorPatients = () => {
       setPatients(res.data.patients);
       setTotalPages(res.data.totalPages);
       setCurrentPage(res.data.page);
-      setPatientsPerPage(res.data.patients.length); 
+      setPatientsPerPage(res.data.patients.length);
       setTotalPatients(res.data.totalPatients);
 
     } catch (err) {
@@ -36,8 +36,6 @@ const GetDoctorPatients = () => {
   const handlePageChange = (page) => {
     fetchPatients(page);
   };
-
-
 
 
   return (
@@ -69,12 +67,9 @@ const GetDoctorPatients = () => {
         </div>
       )}
       {patients.length === 0 && (
-        <p>Nici-un pacient gasit. Va rugam reincarcati pagina.</p>
+        <p className="mt-4">Nici-un pacient gasit. Va rugam reincarcati pagina.</p>
       )}
 
-      <div className={genericStyles.marginBottom}>
-        <Link to="/create-patient"><button className={genericStyles.button}>Creeaza un pacient</button></Link>
-      </div>
     </div>
   );
 };

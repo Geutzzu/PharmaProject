@@ -29,7 +29,8 @@ const CreatePatient = () => {
 
   return (
     <div className={genericStyles.container}>
-    <form onSubmit={onSubmit} className={genericStyles.form}>
+        <h2 className={genericStyles.header}>Creeaza un pacient</h2>
+     <form onSubmit={onSubmit} className={genericStyles.form}>
       <input
         type="text"
         name="firstName"

@@ -280,7 +280,19 @@ router.get('/patients/:patientId/prescriptions', protectDoctor, async (req, res)
 });
 */
 
-
+// Get logged-in doctor's email and name
+router.get('/me', protectDoctor, async (req, res) => {
+  try {
+    const doctor = await Doctor.findById(req.user.id).select('email firstName lastName');
+    if (!doctor) {
+      return res.status(404).json({ message: 'Doctor not found' });
+    }
+    res.json({ email: doctor.email, name: `${doctor.firstName} ${doctor.lastName}` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
 
 
 /// for pagination

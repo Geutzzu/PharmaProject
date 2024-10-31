@@ -183,7 +183,7 @@ const PatientDetails = () => {
             <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} totalItems={totalNumberOfPrescriptions} itemsPerPage={totalItemsPerPage} />
           </div>
         ) : (
-          <p>Nu am gasit retete pentru pacient.</p>
+          <p className="mt-4 font-bold">Nu am gasit retete pentru pacient.</p>
         )}
       </div>
     </div>

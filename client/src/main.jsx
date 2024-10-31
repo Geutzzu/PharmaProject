@@ -3,10 +3,9 @@ import * as ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import "./index.css";
-import Login from "./components/Login";
-import RegisterDoctor from "./components/RegisterDoctor";
-import RegisterPharmacy from "./components/RegisterPharmacy";
-import GetDoctorPatients from "./components/GetDoctorPatients";
+import RegisterDoctor from "./components/login/RegisterDoctor.jsx";
+import RegisterPharmacy from "./components/login/RegisterPharmacy.jsx";
+import GetDoctorPatients from "./components/patients/GetDoctorPatients.jsx";
 import CreatePatient from "./components/CreatePatient";
 import CreatePrescription from "./components/CreatePrescription";
 import PatientDetails from "./components/PatientDetails";
@@ -17,10 +16,6 @@ const router = createBrowserRouter([
   {
     path: "/*",
     element: <App />,
-  },
-  {
-    path: "/auth/login",
-    element: <Login />,
   },
   {
     path: "/auth/register/doctor",
