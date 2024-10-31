@@ -29,7 +29,7 @@ const CreatePatient = () => {
 
   return (
     <div className={genericStyles.container}>
-        <h2 className={genericStyles.header}>Creeaza un pacient</h2>
+        <h2 className={genericStyles.header}>Adauga un pacient</h2>
      <form onSubmit={onSubmit} className={genericStyles.form}>
       <input
         type="text"
@@ -63,7 +63,7 @@ const CreatePatient = () => {
         name="phone"
         value={phone}
         onChange={onChange}
-        placeholder="telefon"
+        placeholder="Telefon"
         required
         className={genericStyles.input}
       />
