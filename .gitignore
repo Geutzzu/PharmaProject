@@ -33,3 +33,5 @@ dist-ssr
 
 # ServerASP
 ServerASP/.vs
+ServerASP/ServerASP/bin
+ServerASP/ServerASP/obj
